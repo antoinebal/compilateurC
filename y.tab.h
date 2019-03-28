@@ -45,71 +45,82 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    tMAIN = 258,
-    tACCO = 259,
-    tACCF = 260,
-    tCONST = 261,
-    tPARO = 262,
-    tPARF = 263,
-    tINT = 264,
-    tPRINTF = 265,
-    tWHILE = 266,
-    tIF = 267,
-    tPLUS = 268,
-    tMULT = 269,
-    tMOINS = 270,
-    tDIV = 271,
-    tAFFECT = 272,
-    tSUPEGAL = 273,
-    tINFEGAL = 274,
-    tSUP = 275,
-    tINF = 276,
-    tDIFF = 277,
-    tEGAL = 278,
-    tNOT = 279,
-    tVIRGULE = 280,
-    tRETURN = 281,
-    tNB = 282,
-    tNOM = 283,
-    tPV = 284,
-    tVOID = 285,
-    tID = 286
+    tACCO = 258,
+    tACCF = 259,
+    tCONST = 260,
+    tPARO = 261,
+    tPARF = 262,
+    tINT = 263,
+    tPRINTF = 264,
+    tWHILE = 265,
+    tIF = 266,
+    tPLUS = 267,
+    tMULT = 268,
+    tMOINS = 269,
+    tDIV = 270,
+    tAFFECT = 271,
+    tSUPEGAL = 272,
+    tINFEGAL = 273,
+    tSUP = 274,
+    tINF = 275,
+    tDIFF = 276,
+    tEGAL = 277,
+    tNOT = 278,
+    tVIRGULE = 279,
+    tRETURN = 280,
+    tNB = 281,
+    tNOM = 282,
+    tPV = 283,
+    tVOID = 284,
+    tID = 285,
+    tELSE = 286
   };
 #endif
 /* Tokens.  */
-#define tMAIN 258
-#define tACCO 259
-#define tACCF 260
-#define tCONST 261
-#define tPARO 262
-#define tPARF 263
-#define tINT 264
-#define tPRINTF 265
-#define tWHILE 266
-#define tIF 267
-#define tPLUS 268
-#define tMULT 269
-#define tMOINS 270
-#define tDIV 271
-#define tAFFECT 272
-#define tSUPEGAL 273
-#define tINFEGAL 274
-#define tSUP 275
-#define tINF 276
-#define tDIFF 277
-#define tEGAL 278
-#define tNOT 279
-#define tVIRGULE 280
-#define tRETURN 281
-#define tNB 282
-#define tNOM 283
-#define tPV 284
-#define tVOID 285
-#define tID 286
+#define tACCO 258
+#define tACCF 259
+#define tCONST 260
+#define tPARO 261
+#define tPARF 262
+#define tINT 263
+#define tPRINTF 264
+#define tWHILE 265
+#define tIF 266
+#define tPLUS 267
+#define tMULT 268
+#define tMOINS 269
+#define tDIV 270
+#define tAFFECT 271
+#define tSUPEGAL 272
+#define tINFEGAL 273
+#define tSUP 274
+#define tINF 275
+#define tDIFF 276
+#define tEGAL 277
+#define tNOT 278
+#define tVIRGULE 279
+#define tRETURN 280
+#define tNB 281
+#define tNOM 282
+#define tPV 283
+#define tVOID 284
+#define tID 285
+#define tELSE 286
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 12 "compiler.y" /* yacc.c:1909  */
+
+	int e;
+	char* e2;
+
+#line 121 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

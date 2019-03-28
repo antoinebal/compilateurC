@@ -1,15 +1,30 @@
 %{
+	#include "tsymbol.h"	
 	int yylex(void);
 	void yyerror(char*);
 %}
 
-%token tMAIN tACCO tACCF tCONST tPARO tPARF tINT tPRINTF tWHILE tIF tPLUS tMULT tMOINS tDIV tAFFECT tSUPEGAL tINFEGAL tSUP tINF tDIFF tEGAL tNOT tVIRGULE tRETURN tNB tNOM tPV tVOID tID
+%token tACCO tACCF tCONST tPARO tPARF tINT tPRINTF tWHILE tIF tPLUS tMULT tMOINS tDIV tAFFECT tSUPEGAL tINFEGAL tSUP tINF tDIFF tEGAL tNOT tVIRGULE tRETURN tNB tNOM tPV tVOID tID tELSE
+
+%left tPLUS tMOINS
+%left tMULT tDIV
+
+
+%union {
+	int e;
+	char* e2;
+} 
+
+%type <e2> tID
+%type <e> tNB 
+
+//%type <e2> Operateur
+
 
 %%
 
-start : FonctionsG ;
-FonctionsG : Main | Main Fonctions;
-Main : tVOID tMAIN tPARO Arguments tPARF BodyFonction;
+
+start : Fonctions;
 Fonctions : Fonction Fonctions | Fonction ;
 Fonction : Type tID tPARO Arguments tPARF BodyFonction ;
 Type : tINT|tVOID ;
@@ -20,30 +35,43 @@ BodyFonction : tACCO Declarations Actions tACCF | tACCO Declarations Actions tRE
 Declarations :  | Declaration Declarations ; 
 Declaration : tINT tID tPV ;
 Actions : Action Actions |  ;
-Action : Affectation | Bloc | AppelFonction; 
-Affectation : tID tAFFECT Calcul tPV;
+Action : Affectation | BlocIf | BlocWhile | AppelFonction | Printf ; 
+Affectation : tID tAFFECT Calcul tPV; 
 //cette fonction doit retourner un int
-Calcul : Grandeur | Grandeur Operateur Calcul | AppelFonction;
-Grandeur : tNB | tID;
-Operateur : tPLUS|tMULT|tMOINS|tDIV;
-Bloc : Cle tPARO Condition tPARF Body;
-Cle : tIF|tWHILE;
+
+Calcul : Grandeur | Calcul tPLUS Calcul { printf("tPLUS\n"); } | Calcul tMULT Calcul { printf("tMULT\n"); } | Calcul tMOINS Calcul { printf("tMOINS\n"); } | Calcul tDIV Calcul { printf("tDIV\n"); }| AppelFonction | Parentheses;
+Parentheses : tPARO Calcul tPARF;
+Grandeur : tNB 
+	{
+	int index = ajouterLigneTmp();
+	int adresse = getAdresse(index);
+	//ici on va générer les instructions MOV r0 $1 ,STORE adr r0
+	}
+	| tID;
+
+
+BlocWhile : tWHILE tPARO Condition tPARF Body;
+
+BlocIf : tIF tPARO Condition tPARF Body Else ;
+Else : | tELSE BlocIf | tELSE Body ;
 //body spécial qui ne permet pas les déclarations
 Body : tACCO Actions tACCF ;
 Condition : Cond | tNOT Cond ;
-Cond : Calcul OpCondi Calcul ;
-OpCondi : tSUPEGAL|tINFEGAL|tSUP|tINF|tDIFF|tEGAL;
+Cond : Calcul tSUPEGAL Calcul | Calcul tINFEGAL Calcul | Calcul tSUP Calcul |
+Calcul tINF Calcul | Calcul tDIFF Calcul | Calcul tEGAL Calcul | Calcul;
 //cette fonction doit être void
 AppelFonction : tID tPARO Args tPARF tPV;
 //même chose que dans la déclaration des fonctions mais sans les types
-Args : Arg tVIRGULE Arg | Arg ; 
-Arg : Calcul ;
+Args : Calcul tVIRGULE Args | Calcul | ; 
+//pour l'instant on peut print que des int
+Printf : tPRINTF tPARO Calcul tPARF tPV ;
+ 
 
 %%
-/*
+
 int main(void) {
 #ifdef YYDEBUG
 	yydebug = 1;
 #endif
 	yyparse();
-}*/
+}

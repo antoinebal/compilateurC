@@ -1,7 +1,6 @@
 Terminaux inutilisés dans la grammaire
 
    tCONST
-   tPRINTF
    tNOM
 
 
@@ -9,116 +8,117 @@ Grammaire
 
     0 $accept: start $end
 
-    1 start: FonctionsG
+    1 start: Fonctions
 
-    2 FonctionsG: Main
-    3           | Main Fonctions
+    2 Fonctions: Fonction Fonctions
+    3          | Fonction
 
-    4 Main: tVOID tMAIN tPARO Arguments tPARF BodyFonction
+    4 Fonction: Type tID tPARO Arguments tPARF BodyFonction
 
-    5 Fonctions: Fonction Fonctions
-    6          | Fonction
+    5 Type: tINT
+    6     | tVOID
 
-    7 Fonction: Type tID tPARO Arguments tPARF BodyFonction
+    7 Arguments: Argument tVIRGULE Arguments
+    8          | Argument
+    9          | %empty
 
-    8 Type: tINT
-    9     | tVOID
+   10 Argument: tINT tID
 
-   10 Arguments: Argument tVIRGULE Arguments
-   11          | Argument
-   12          | %empty
+   11 BodyFonction: tACCO Declarations Actions tACCF
+   12             | tACCO Declarations Actions tRETURN Calcul tPV tACCF
 
-   13 Argument: tINT tID
+   13 Declarations: %empty
+   14             | Declaration Declarations
 
-   14 BodyFonction: tACCO Declarations Actions tACCF
-   15             | tACCO Declarations Actions tRETURN Calcul tPV tACCF
+   15 Declaration: tINT tID tPV
 
-   16 Declarations: %empty
-   17             | Declaration Declarations
+   16 Actions: Action Actions
+   17        | %empty
 
-   18 Declaration: tINT tID tPV
+   18 Action: Affectation
+   19       | BlocIf
+   20       | BlocWhile
+   21       | AppelFonction
+   22       | Printf
 
-   19 Actions: Action Actions
-   20        | %empty
+   23 Affectation: tID tAFFECT Calcul tPV
 
-   21 Action: Affectation
-   22       | Bloc
-   23       | AppelFonction
+   24 Calcul: Grandeur
+   25       | Calcul tPLUS Calcul
+   26       | Calcul tMULT Calcul
+   27       | Calcul tMOINS Calcul
+   28       | Calcul tDIV Calcul
+   29       | AppelFonction
+   30       | Parentheses
 
-   24 Affectation: tID tAFFECT Calcul tPV
+   31 Parentheses: tPARO Calcul tPARF
 
-   25 Calcul: Grandeur
-   26       | Grandeur Operateur Calcul
-   27       | AppelFonction
+   32 Grandeur: tNB
+   33         | tID
 
-   28 Grandeur: tNB
-   29         | tID
+   34 BlocWhile: tWHILE tPARO Condition tPARF Body
 
-   30 Operateur: tPLUS
-   31          | tMULT
-   32          | tMOINS
-   33          | tDIV
+   35 BlocIf: tIF tPARO Condition tPARF Body Else
 
-   34 Bloc: Cle tPARO Condition tPARF Body
+   36 Else: %empty
+   37     | tELSE BlocIf
+   38     | tELSE Body
 
-   35 Cle: tIF
-   36    | tWHILE
+   39 Body: tACCO Actions tACCF
 
-   37 Body: tACCO Actions tACCF
+   40 Condition: Cond
+   41          | tNOT Cond
 
-   38 Condition: Cond
-   39          | tNOT Cond
+   42 Cond: Calcul tSUPEGAL Calcul
+   43     | Calcul tINFEGAL Calcul
+   44     | Calcul tSUP Calcul
+   45     | Calcul tINF Calcul
+   46     | Calcul tDIFF Calcul
+   47     | Calcul tEGAL Calcul
+   48     | Calcul
 
-   40 Cond: Calcul OpCondi Calcul
+   49 AppelFonction: tID tPARO Args tPARF tPV
 
-   41 OpCondi: tSUPEGAL
-   42        | tINFEGAL
-   43        | tSUP
-   44        | tINF
-   45        | tDIFF
-   46        | tEGAL
+   50 Args: Calcul tVIRGULE Args
+   51     | Calcul
+   52     | %empty
 
-   47 AppelFonction: tID tPARO Args tPARF tPV
-
-   48 Args: Arg tVIRGULE Arg
-   49     | Arg
-
-   50 Arg: Calcul
+   53 Printf: tPRINTF tPARO Calcul tPARF tPV
 
 
 Terminaux, suivis des règles où ils apparaissent
 
 $end (0) 0
 error (256)
-tMAIN (258) 4
-tACCO (259) 14 15 37
-tACCF (260) 14 15 37
-tCONST (261)
-tPARO (262) 4 7 34 47
-tPARF (263) 4 7 34 47
-tINT (264) 8 13 18
-tPRINTF (265)
-tWHILE (266) 36
-tIF (267) 35
-tPLUS (268) 30
-tMULT (269) 31
-tMOINS (270) 32
-tDIV (271) 33
-tAFFECT (272) 24
-tSUPEGAL (273) 41
-tINFEGAL (274) 42
-tSUP (275) 43
-tINF (276) 44
-tDIFF (277) 45
-tEGAL (278) 46
-tNOT (279) 39
-tVIRGULE (280) 10 48
-tRETURN (281) 15
-tNB (282) 28
-tNOM (283)
-tPV (284) 15 18 24 47
-tVOID (285) 4 9
-tID (286) 7 13 18 24 29 47
+tACCO (258) 11 12 39
+tACCF (259) 11 12 39
+tCONST (260)
+tPARO (261) 4 31 34 35 49 53
+tPARF (262) 4 31 34 35 49 53
+tINT (263) 5 10 15
+tPRINTF (264) 53
+tWHILE (265) 34
+tIF (266) 35
+tPLUS (267) 25
+tMULT (268) 26
+tMOINS (269) 27
+tDIV (270) 28
+tAFFECT (271) 23
+tSUPEGAL (272) 42
+tINFEGAL (273) 43
+tSUP (274) 44
+tINF (275) 45
+tDIFF (276) 46
+tEGAL (277) 47
+tNOT (278) 41
+tVIRGULE (279) 7 50
+tRETURN (280) 12
+tNB (281) 32
+tNOM (282)
+tPV (283) 12 15 23 49 53
+tVOID (284) 6
+tID (285) 4 10 15 23 33 49
+tELSE (286) 37 38
 
 
 Non-terminaux, suivis des règles où ils apparaissent
@@ -127,837 +127,1164 @@ $accept (32)
     à gauche: 0
 start (33)
     à gauche: 1, à droite: 0
-FonctionsG (34)
-    à gauche: 2 3, à droite: 1
-Main (35)
+Fonctions (34)
+    à gauche: 2 3, à droite: 1 2
+Fonction (35)
     à gauche: 4, à droite: 2 3
-Fonctions (36)
-    à gauche: 5 6, à droite: 3 5
-Fonction (37)
-    à gauche: 7, à droite: 5 6
-Type (38)
-    à gauche: 8 9, à droite: 7
-Arguments (39)
-    à gauche: 10 11 12, à droite: 4 7 10
-Argument (40)
-    à gauche: 13, à droite: 10 11
-BodyFonction (41)
-    à gauche: 14 15, à droite: 4 7
-Declarations (42)
-    à gauche: 16 17, à droite: 14 15 17
-Declaration (43)
-    à gauche: 18, à droite: 17
-Actions (44)
-    à gauche: 19 20, à droite: 14 15 19 37
-Action (45)
-    à gauche: 21 22 23, à droite: 19
-Affectation (46)
-    à gauche: 24, à droite: 21
-Calcul (47)
-    à gauche: 25 26 27, à droite: 15 24 26 40 50
-Grandeur (48)
-    à gauche: 28 29, à droite: 25 26
-Operateur (49)
-    à gauche: 30 31 32 33, à droite: 26
-Bloc (50)
-    à gauche: 34, à droite: 22
-Cle (51)
-    à gauche: 35 36, à droite: 34
-Body (52)
-    à gauche: 37, à droite: 34
-Condition (53)
-    à gauche: 38 39, à droite: 34
-Cond (54)
-    à gauche: 40, à droite: 38 39
-OpCondi (55)
-    à gauche: 41 42 43 44 45 46, à droite: 40
-AppelFonction (56)
-    à gauche: 47, à droite: 23 27
-Args (57)
-    à gauche: 48 49, à droite: 47
-Arg (58)
-    à gauche: 50, à droite: 48 49
+Type (36)
+    à gauche: 5 6, à droite: 4
+Arguments (37)
+    à gauche: 7 8 9, à droite: 4 7
+Argument (38)
+    à gauche: 10, à droite: 7 8
+BodyFonction (39)
+    à gauche: 11 12, à droite: 4
+Declarations (40)
+    à gauche: 13 14, à droite: 11 12 14
+Declaration (41)
+    à gauche: 15, à droite: 14
+Actions (42)
+    à gauche: 16 17, à droite: 11 12 16 39
+Action (43)
+    à gauche: 18 19 20 21 22, à droite: 16
+Affectation (44)
+    à gauche: 23, à droite: 18
+Calcul (45)
+    à gauche: 24 25 26 27 28 29 30, à droite: 12 23 25 26 27 28 31
+    42 43 44 45 46 47 48 50 51 53
+Parentheses (46)
+    à gauche: 31, à droite: 30
+Grandeur (47)
+    à gauche: 32 33, à droite: 24
+BlocWhile (48)
+    à gauche: 34, à droite: 20
+BlocIf (49)
+    à gauche: 35, à droite: 19 37
+Else (50)
+    à gauche: 36 37 38, à droite: 35
+Body (51)
+    à gauche: 39, à droite: 34 35 38
+Condition (52)
+    à gauche: 40 41, à droite: 34 35
+Cond (53)
+    à gauche: 42 43 44 45 46 47 48, à droite: 40 41
+AppelFonction (54)
+    à gauche: 49, à droite: 21 29
+Args (55)
+    à gauche: 50 51 52, à droite: 49 50
+Printf (56)
+    à gauche: 53, à droite: 22
 
 
 État 0
 
     0 $accept: . start $end
 
-    tVOID  décalage et aller à l'état 1
+    tINT   décalage et aller à l'état 1
+    tVOID  décalage et aller à l'état 2
 
-    start       aller à l'état 2
-    FonctionsG  aller à l'état 3
-    Main        aller à l'état 4
+    start      aller à l'état 3
+    Fonctions  aller à l'état 4
+    Fonction   aller à l'état 5
+    Type       aller à l'état 6
 
 
 État 1
 
-    4 Main: tVOID . tMAIN tPARO Arguments tPARF BodyFonction
+    5 Type: tINT .
 
-    tMAIN  décalage et aller à l'état 5
+    $défaut  réduction par utilisation de la règle 5 (Type)
 
 
 État 2
 
-    0 $accept: start . $end
+    6 Type: tVOID .
 
-    $end  décalage et aller à l'état 6
+    $défaut  réduction par utilisation de la règle 6 (Type)
 
 
 État 3
 
-    1 start: FonctionsG .
+    0 $accept: start . $end
 
-    $défaut  réduction par utilisation de la règle 1 (start)
+    $end  décalage et aller à l'état 7
 
 
 État 4
 
-    2 FonctionsG: Main .
-    3           | Main . Fonctions
+    1 start: Fonctions .
 
-    tINT   décalage et aller à l'état 7
-    tVOID  décalage et aller à l'état 8
-
-    $défaut  réduction par utilisation de la règle 2 (FonctionsG)
-
-    Fonctions  aller à l'état 9
-    Fonction   aller à l'état 10
-    Type       aller à l'état 11
+    $défaut  réduction par utilisation de la règle 1 (start)
 
 
 État 5
 
-    4 Main: tVOID tMAIN . tPARO Arguments tPARF BodyFonction
+    2 Fonctions: Fonction . Fonctions
+    3          | Fonction .
 
-    tPARO  décalage et aller à l'état 12
+    tINT   décalage et aller à l'état 1
+    tVOID  décalage et aller à l'état 2
+
+    $défaut  réduction par utilisation de la règle 3 (Fonctions)
+
+    Fonctions  aller à l'état 8
+    Fonction   aller à l'état 5
+    Type       aller à l'état 6
 
 
 État 6
+
+    4 Fonction: Type . tID tPARO Arguments tPARF BodyFonction
+
+    tID  décalage et aller à l'état 9
+
+
+État 7
 
     0 $accept: start $end .
 
     $défaut  accepter
 
 
-État 7
-
-    8 Type: tINT .
-
-    $défaut  réduction par utilisation de la règle 8 (Type)
-
-
 État 8
 
-    9 Type: tVOID .
+    2 Fonctions: Fonction Fonctions .
 
-    $défaut  réduction par utilisation de la règle 9 (Type)
+    $défaut  réduction par utilisation de la règle 2 (Fonctions)
 
 
 État 9
 
-    3 FonctionsG: Main Fonctions .
+    4 Fonction: Type tID . tPARO Arguments tPARF BodyFonction
 
-    $défaut  réduction par utilisation de la règle 3 (FonctionsG)
+    tPARO  décalage et aller à l'état 10
 
 
 État 10
 
-    5 Fonctions: Fonction . Fonctions
-    6          | Fonction .
+    4 Fonction: Type tID tPARO . Arguments tPARF BodyFonction
 
-    tINT   décalage et aller à l'état 7
-    tVOID  décalage et aller à l'état 8
+    tINT  décalage et aller à l'état 11
 
-    $défaut  réduction par utilisation de la règle 6 (Fonctions)
+    $défaut  réduction par utilisation de la règle 9 (Arguments)
 
-    Fonctions  aller à l'état 13
-    Fonction   aller à l'état 10
-    Type       aller à l'état 11
+    Arguments  aller à l'état 12
+    Argument   aller à l'état 13
 
 
 État 11
 
-    7 Fonction: Type . tID tPARO Arguments tPARF BodyFonction
+   10 Argument: tINT . tID
 
     tID  décalage et aller à l'état 14
 
 
 État 12
 
-    4 Main: tVOID tMAIN tPARO . Arguments tPARF BodyFonction
+    4 Fonction: Type tID tPARO Arguments . tPARF BodyFonction
 
-    tINT  décalage et aller à l'état 15
-
-    $défaut  réduction par utilisation de la règle 12 (Arguments)
-
-    Arguments  aller à l'état 16
-    Argument   aller à l'état 17
+    tPARF  décalage et aller à l'état 15
 
 
 État 13
 
-    5 Fonctions: Fonction Fonctions .
+    7 Arguments: Argument . tVIRGULE Arguments
+    8          | Argument .
 
-    $défaut  réduction par utilisation de la règle 5 (Fonctions)
+    tVIRGULE  décalage et aller à l'état 16
+
+    $défaut  réduction par utilisation de la règle 8 (Arguments)
 
 
 État 14
 
-    7 Fonction: Type tID . tPARO Arguments tPARF BodyFonction
+   10 Argument: tINT tID .
 
-    tPARO  décalage et aller à l'état 18
+    $défaut  réduction par utilisation de la règle 10 (Argument)
 
 
 État 15
 
-   13 Argument: tINT . tID
+    4 Fonction: Type tID tPARO Arguments tPARF . BodyFonction
 
-    tID  décalage et aller à l'état 19
+    tACCO  décalage et aller à l'état 17
+
+    BodyFonction  aller à l'état 18
 
 
 État 16
 
-    4 Main: tVOID tMAIN tPARO Arguments . tPARF BodyFonction
+    7 Arguments: Argument tVIRGULE . Arguments
 
-    tPARF  décalage et aller à l'état 20
+    tINT  décalage et aller à l'état 11
+
+    $défaut  réduction par utilisation de la règle 9 (Arguments)
+
+    Arguments  aller à l'état 19
+    Argument   aller à l'état 13
 
 
 État 17
 
-   10 Arguments: Argument . tVIRGULE Arguments
-   11          | Argument .
+   11 BodyFonction: tACCO . Declarations Actions tACCF
+   12             | tACCO . Declarations Actions tRETURN Calcul tPV tACCF
 
-    tVIRGULE  décalage et aller à l'état 21
+    tINT  décalage et aller à l'état 20
 
-    $défaut  réduction par utilisation de la règle 11 (Arguments)
+    $défaut  réduction par utilisation de la règle 13 (Declarations)
+
+    Declarations  aller à l'état 21
+    Declaration   aller à l'état 22
 
 
 État 18
 
-    7 Fonction: Type tID tPARO . Arguments tPARF BodyFonction
+    4 Fonction: Type tID tPARO Arguments tPARF BodyFonction .
 
-    tINT  décalage et aller à l'état 15
-
-    $défaut  réduction par utilisation de la règle 12 (Arguments)
-
-    Arguments  aller à l'état 22
-    Argument   aller à l'état 17
+    $défaut  réduction par utilisation de la règle 4 (Fonction)
 
 
 État 19
 
-   13 Argument: tINT tID .
+    7 Arguments: Argument tVIRGULE Arguments .
 
-    $défaut  réduction par utilisation de la règle 13 (Argument)
+    $défaut  réduction par utilisation de la règle 7 (Arguments)
 
 
 État 20
 
-    4 Main: tVOID tMAIN tPARO Arguments tPARF . BodyFonction
+   15 Declaration: tINT . tID tPV
 
-    tACCO  décalage et aller à l'état 23
-
-    BodyFonction  aller à l'état 24
+    tID  décalage et aller à l'état 23
 
 
 État 21
 
-   10 Arguments: Argument tVIRGULE . Arguments
+   11 BodyFonction: tACCO Declarations . Actions tACCF
+   12             | tACCO Declarations . Actions tRETURN Calcul tPV tACCF
 
-    tINT  décalage et aller à l'état 15
+    tPRINTF  décalage et aller à l'état 24
+    tWHILE   décalage et aller à l'état 25
+    tIF      décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
 
-    $défaut  réduction par utilisation de la règle 12 (Arguments)
+    $défaut  réduction par utilisation de la règle 17 (Actions)
 
-    Arguments  aller à l'état 25
-    Argument   aller à l'état 17
+    Actions        aller à l'état 28
+    Action         aller à l'état 29
+    Affectation    aller à l'état 30
+    BlocWhile      aller à l'état 31
+    BlocIf         aller à l'état 32
+    AppelFonction  aller à l'état 33
+    Printf         aller à l'état 34
 
 
 État 22
 
-    7 Fonction: Type tID tPARO Arguments . tPARF BodyFonction
+   14 Declarations: Declaration . Declarations
 
-    tPARF  décalage et aller à l'état 26
+    tINT  décalage et aller à l'état 20
+
+    $défaut  réduction par utilisation de la règle 13 (Declarations)
+
+    Declarations  aller à l'état 35
+    Declaration   aller à l'état 22
 
 
 État 23
 
-   14 BodyFonction: tACCO . Declarations Actions tACCF
-   15             | tACCO . Declarations Actions tRETURN Calcul tPV tACCF
+   15 Declaration: tINT tID . tPV
 
-    tINT  décalage et aller à l'état 27
-
-    $défaut  réduction par utilisation de la règle 16 (Declarations)
-
-    Declarations  aller à l'état 28
-    Declaration   aller à l'état 29
+    tPV  décalage et aller à l'état 36
 
 
 État 24
 
-    4 Main: tVOID tMAIN tPARO Arguments tPARF BodyFonction .
+   53 Printf: tPRINTF . tPARO Calcul tPARF tPV
 
-    $défaut  réduction par utilisation de la règle 4 (Main)
+    tPARO  décalage et aller à l'état 37
 
 
 État 25
 
-   10 Arguments: Argument tVIRGULE Arguments .
+   34 BlocWhile: tWHILE . tPARO Condition tPARF Body
 
-    $défaut  réduction par utilisation de la règle 10 (Arguments)
+    tPARO  décalage et aller à l'état 38
 
 
 État 26
 
-    7 Fonction: Type tID tPARO Arguments tPARF . BodyFonction
+   35 BlocIf: tIF . tPARO Condition tPARF Body Else
 
-    tACCO  décalage et aller à l'état 23
-
-    BodyFonction  aller à l'état 30
+    tPARO  décalage et aller à l'état 39
 
 
 État 27
 
-   18 Declaration: tINT . tID tPV
+   23 Affectation: tID . tAFFECT Calcul tPV
+   49 AppelFonction: tID . tPARO Args tPARF tPV
 
-    tID  décalage et aller à l'état 31
+    tPARO    décalage et aller à l'état 40
+    tAFFECT  décalage et aller à l'état 41
 
 
 État 28
 
-   14 BodyFonction: tACCO Declarations . Actions tACCF
-   15             | tACCO Declarations . Actions tRETURN Calcul tPV tACCF
+   11 BodyFonction: tACCO Declarations Actions . tACCF
+   12             | tACCO Declarations Actions . tRETURN Calcul tPV tACCF
 
-    tWHILE  décalage et aller à l'état 32
-    tIF     décalage et aller à l'état 33
-    tID     décalage et aller à l'état 34
-
-    $défaut  réduction par utilisation de la règle 20 (Actions)
-
-    Actions        aller à l'état 35
-    Action         aller à l'état 36
-    Affectation    aller à l'état 37
-    Bloc           aller à l'état 38
-    Cle            aller à l'état 39
-    AppelFonction  aller à l'état 40
+    tACCF    décalage et aller à l'état 42
+    tRETURN  décalage et aller à l'état 43
 
 
 État 29
 
-   17 Declarations: Declaration . Declarations
+   16 Actions: Action . Actions
 
-    tINT  décalage et aller à l'état 27
+    tPRINTF  décalage et aller à l'état 24
+    tWHILE   décalage et aller à l'état 25
+    tIF      décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
 
-    $défaut  réduction par utilisation de la règle 16 (Declarations)
+    $défaut  réduction par utilisation de la règle 17 (Actions)
 
-    Declarations  aller à l'état 41
-    Declaration   aller à l'état 29
+    Actions        aller à l'état 44
+    Action         aller à l'état 29
+    Affectation    aller à l'état 30
+    BlocWhile      aller à l'état 31
+    BlocIf         aller à l'état 32
+    AppelFonction  aller à l'état 33
+    Printf         aller à l'état 34
 
 
 État 30
 
-    7 Fonction: Type tID tPARO Arguments tPARF BodyFonction .
+   18 Action: Affectation .
 
-    $défaut  réduction par utilisation de la règle 7 (Fonction)
+    $défaut  réduction par utilisation de la règle 18 (Action)
 
 
 État 31
 
-   18 Declaration: tINT tID . tPV
+   20 Action: BlocWhile .
 
-    tPV  décalage et aller à l'état 42
+    $défaut  réduction par utilisation de la règle 20 (Action)
 
 
 État 32
 
-   36 Cle: tWHILE .
+   19 Action: BlocIf .
 
-    $défaut  réduction par utilisation de la règle 36 (Cle)
+    $défaut  réduction par utilisation de la règle 19 (Action)
 
 
 État 33
 
-   35 Cle: tIF .
-
-    $défaut  réduction par utilisation de la règle 35 (Cle)
-
-
-État 34
-
-   24 Affectation: tID . tAFFECT Calcul tPV
-   47 AppelFonction: tID . tPARO Args tPARF tPV
-
-    tPARO    décalage et aller à l'état 43
-    tAFFECT  décalage et aller à l'état 44
-
-
-État 35
-
-   14 BodyFonction: tACCO Declarations Actions . tACCF
-   15             | tACCO Declarations Actions . tRETURN Calcul tPV tACCF
-
-    tACCF    décalage et aller à l'état 45
-    tRETURN  décalage et aller à l'état 46
-
-
-État 36
-
-   19 Actions: Action . Actions
-
-    tWHILE  décalage et aller à l'état 32
-    tIF     décalage et aller à l'état 33
-    tID     décalage et aller à l'état 34
-
-    $défaut  réduction par utilisation de la règle 20 (Actions)
-
-    Actions        aller à l'état 47
-    Action         aller à l'état 36
-    Affectation    aller à l'état 37
-    Bloc           aller à l'état 38
-    Cle            aller à l'état 39
-    AppelFonction  aller à l'état 40
-
-
-État 37
-
-   21 Action: Affectation .
+   21 Action: AppelFonction .
 
     $défaut  réduction par utilisation de la règle 21 (Action)
 
 
-État 38
+État 34
 
-   22 Action: Bloc .
+   22 Action: Printf .
 
     $défaut  réduction par utilisation de la règle 22 (Action)
 
 
+État 35
+
+   14 Declarations: Declaration Declarations .
+
+    $défaut  réduction par utilisation de la règle 14 (Declarations)
+
+
+État 36
+
+   15 Declaration: tINT tID tPV .
+
+    $défaut  réduction par utilisation de la règle 15 (Declaration)
+
+
+État 37
+
+   53 Printf: tPRINTF tPARO . Calcul tPARF tPV
+
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 48
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
+
+
+État 38
+
+   34 BlocWhile: tWHILE tPARO . Condition tPARF Body
+
+    tPARO  décalage et aller à l'état 45
+    tNOT   décalage et aller à l'état 52
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 53
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    Condition      aller à l'état 54
+    Cond           aller à l'état 55
+    AppelFonction  aller à l'état 51
+
+
 État 39
 
-   34 Bloc: Cle . tPARO Condition tPARF Body
+   35 BlocIf: tIF tPARO . Condition tPARF Body Else
 
-    tPARO  décalage et aller à l'état 48
+    tPARO  décalage et aller à l'état 45
+    tNOT   décalage et aller à l'état 52
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 53
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    Condition      aller à l'état 56
+    Cond           aller à l'état 55
+    AppelFonction  aller à l'état 51
 
 
 État 40
 
-   23 Action: AppelFonction .
+   49 AppelFonction: tID tPARO . Args tPARF tPV
 
-    $défaut  réduction par utilisation de la règle 23 (Action)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 52 (Args)
+
+    Calcul         aller à l'état 57
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
+    Args           aller à l'état 58
 
 
 État 41
 
-   17 Declarations: Declaration Declarations .
+   23 Affectation: tID tAFFECT . Calcul tPV
 
-    $défaut  réduction par utilisation de la règle 17 (Declarations)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 59
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 42
 
-   18 Declaration: tINT tID tPV .
+   11 BodyFonction: tACCO Declarations Actions tACCF .
 
-    $défaut  réduction par utilisation de la règle 18 (Declaration)
+    $défaut  réduction par utilisation de la règle 11 (BodyFonction)
 
 
 État 43
 
-   47 AppelFonction: tID tPARO . Args tPARF tPV
+   12 BodyFonction: tACCO Declarations Actions tRETURN . Calcul tPV tACCF
 
-    tNB  décalage et aller à l'état 49
-    tID  décalage et aller à l'état 50
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
 
-    Calcul         aller à l'état 51
-    Grandeur       aller à l'état 52
-    AppelFonction  aller à l'état 53
-    Args           aller à l'état 54
-    Arg            aller à l'état 55
+    Calcul         aller à l'état 60
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 44
 
-   24 Affectation: tID tAFFECT . Calcul tPV
+   16 Actions: Action Actions .
 
-    tNB  décalage et aller à l'état 49
-    tID  décalage et aller à l'état 50
-
-    Calcul         aller à l'état 56
-    Grandeur       aller à l'état 52
-    AppelFonction  aller à l'état 53
+    $défaut  réduction par utilisation de la règle 16 (Actions)
 
 
 État 45
 
-   14 BodyFonction: tACCO Declarations Actions tACCF .
+   31 Parentheses: tPARO . Calcul tPARF
 
-    $défaut  réduction par utilisation de la règle 14 (BodyFonction)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 61
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 46
 
-   15 BodyFonction: tACCO Declarations Actions tRETURN . Calcul tPV tACCF
+   32 Grandeur: tNB .
 
-    tNB  décalage et aller à l'état 49
-    tID  décalage et aller à l'état 50
-
-    Calcul         aller à l'état 57
-    Grandeur       aller à l'état 52
-    AppelFonction  aller à l'état 53
+    $défaut  réduction par utilisation de la règle 32 (Grandeur)
 
 
 État 47
 
-   19 Actions: Action Actions .
+   33 Grandeur: tID .
+   49 AppelFonction: tID . tPARO Args tPARF tPV
 
-    $défaut  réduction par utilisation de la règle 19 (Actions)
+    tPARO  décalage et aller à l'état 40
+
+    $défaut  réduction par utilisation de la règle 33 (Grandeur)
 
 
 État 48
 
-   34 Bloc: Cle tPARO . Condition tPARF Body
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   53 Printf: tPRINTF tPARO Calcul . tPARF tPV
 
-    tNOT  décalage et aller à l'état 58
-    tNB   décalage et aller à l'état 49
-    tID   décalage et aller à l'état 50
-
-    Calcul         aller à l'état 59
-    Grandeur       aller à l'état 52
-    Condition      aller à l'état 60
-    Cond           aller à l'état 61
-    AppelFonction  aller à l'état 53
+    tPARF   décalage et aller à l'état 62
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
 
 
 État 49
 
-   28 Grandeur: tNB .
+   30 Calcul: Parentheses .
 
-    $défaut  réduction par utilisation de la règle 28 (Grandeur)
+    $défaut  réduction par utilisation de la règle 30 (Calcul)
 
 
 État 50
 
-   29 Grandeur: tID .
-   47 AppelFonction: tID . tPARO Args tPARF tPV
+   24 Calcul: Grandeur .
 
-    tPARO  décalage et aller à l'état 43
-
-    $défaut  réduction par utilisation de la règle 29 (Grandeur)
+    $défaut  réduction par utilisation de la règle 24 (Calcul)
 
 
 État 51
 
-   50 Arg: Calcul .
+   29 Calcul: AppelFonction .
 
-    $défaut  réduction par utilisation de la règle 50 (Arg)
+    $défaut  réduction par utilisation de la règle 29 (Calcul)
 
 
 État 52
 
-   25 Calcul: Grandeur .
-   26       | Grandeur . Operateur Calcul
+   41 Condition: tNOT . Cond
 
-    tPLUS   décalage et aller à l'état 62
-    tMULT   décalage et aller à l'état 63
-    tMOINS  décalage et aller à l'état 64
-    tDIV    décalage et aller à l'état 65
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
 
-    $défaut  réduction par utilisation de la règle 25 (Calcul)
-
-    Operateur  aller à l'état 66
+    Calcul         aller à l'état 53
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    Cond           aller à l'état 67
+    AppelFonction  aller à l'état 51
 
 
 État 53
 
-   27 Calcul: AppelFonction .
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   42 Cond: Calcul . tSUPEGAL Calcul
+   43     | Calcul . tINFEGAL Calcul
+   44     | Calcul . tSUP Calcul
+   45     | Calcul . tINF Calcul
+   46     | Calcul . tDIFF Calcul
+   47     | Calcul . tEGAL Calcul
+   48     | Calcul .
 
-    $défaut  réduction par utilisation de la règle 27 (Calcul)
+    tPLUS     décalage et aller à l'état 63
+    tMULT     décalage et aller à l'état 64
+    tMOINS    décalage et aller à l'état 65
+    tDIV      décalage et aller à l'état 66
+    tSUPEGAL  décalage et aller à l'état 68
+    tINFEGAL  décalage et aller à l'état 69
+    tSUP      décalage et aller à l'état 70
+    tINF      décalage et aller à l'état 71
+    tDIFF     décalage et aller à l'état 72
+    tEGAL     décalage et aller à l'état 73
+
+    $défaut  réduction par utilisation de la règle 48 (Cond)
 
 
 État 54
 
-   47 AppelFonction: tID tPARO Args . tPARF tPV
+   34 BlocWhile: tWHILE tPARO Condition . tPARF Body
 
-    tPARF  décalage et aller à l'état 67
+    tPARF  décalage et aller à l'état 74
 
 
 État 55
 
-   48 Args: Arg . tVIRGULE Arg
-   49     | Arg .
+   40 Condition: Cond .
 
-    tVIRGULE  décalage et aller à l'état 68
-
-    $défaut  réduction par utilisation de la règle 49 (Args)
+    $défaut  réduction par utilisation de la règle 40 (Condition)
 
 
 État 56
 
-   24 Affectation: tID tAFFECT Calcul . tPV
+   35 BlocIf: tIF tPARO Condition . tPARF Body Else
 
-    tPV  décalage et aller à l'état 69
+    tPARF  décalage et aller à l'état 75
 
 
 État 57
 
-   15 BodyFonction: tACCO Declarations Actions tRETURN Calcul . tPV tACCF
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   50 Args: Calcul . tVIRGULE Args
+   51     | Calcul .
 
-    tPV  décalage et aller à l'état 70
+    tPLUS     décalage et aller à l'état 63
+    tMULT     décalage et aller à l'état 64
+    tMOINS    décalage et aller à l'état 65
+    tDIV      décalage et aller à l'état 66
+    tVIRGULE  décalage et aller à l'état 76
+
+    $défaut  réduction par utilisation de la règle 51 (Args)
 
 
 État 58
 
-   39 Condition: tNOT . Cond
+   49 AppelFonction: tID tPARO Args . tPARF tPV
 
-    tNB  décalage et aller à l'état 49
-    tID  décalage et aller à l'état 50
-
-    Calcul         aller à l'état 59
-    Grandeur       aller à l'état 52
-    Cond           aller à l'état 71
-    AppelFonction  aller à l'état 53
+    tPARF  décalage et aller à l'état 77
 
 
 État 59
 
-   40 Cond: Calcul . OpCondi Calcul
+   23 Affectation: tID tAFFECT Calcul . tPV
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
 
-    tSUPEGAL  décalage et aller à l'état 72
-    tINFEGAL  décalage et aller à l'état 73
-    tSUP      décalage et aller à l'état 74
-    tINF      décalage et aller à l'état 75
-    tDIFF     décalage et aller à l'état 76
-    tEGAL     décalage et aller à l'état 77
-
-    OpCondi  aller à l'état 78
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+    tPV     décalage et aller à l'état 78
 
 
 État 60
 
-   34 Bloc: Cle tPARO Condition . tPARF Body
+   12 BodyFonction: tACCO Declarations Actions tRETURN Calcul . tPV tACCF
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
 
-    tPARF  décalage et aller à l'état 79
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+    tPV     décalage et aller à l'état 79
 
 
 État 61
 
-   38 Condition: Cond .
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   31 Parentheses: tPARO Calcul . tPARF
 
-    $défaut  réduction par utilisation de la règle 38 (Condition)
+    tPARF   décalage et aller à l'état 80
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
 
 
 État 62
 
-   30 Operateur: tPLUS .
-
-    $défaut  réduction par utilisation de la règle 30 (Operateur)
-
-
-État 63
-
-   31 Operateur: tMULT .
-
-    $défaut  réduction par utilisation de la règle 31 (Operateur)
-
-
-État 64
-
-   32 Operateur: tMOINS .
-
-    $défaut  réduction par utilisation de la règle 32 (Operateur)
-
-
-État 65
-
-   33 Operateur: tDIV .
-
-    $défaut  réduction par utilisation de la règle 33 (Operateur)
-
-
-État 66
-
-   26 Calcul: Grandeur Operateur . Calcul
-
-    tNB  décalage et aller à l'état 49
-    tID  décalage et aller à l'état 50
-
-    Calcul         aller à l'état 80
-    Grandeur       aller à l'état 52
-    AppelFonction  aller à l'état 53
-
-
-État 67
-
-   47 AppelFonction: tID tPARO Args tPARF . tPV
+   53 Printf: tPRINTF tPARO Calcul tPARF . tPV
 
     tPV  décalage et aller à l'état 81
 
 
+État 63
+
+   25 Calcul: Calcul tPLUS . Calcul
+
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 82
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
+
+
+État 64
+
+   26 Calcul: Calcul tMULT . Calcul
+
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 83
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
+
+
+État 65
+
+   27 Calcul: Calcul tMOINS . Calcul
+
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 84
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
+
+
+État 66
+
+   28 Calcul: Calcul tDIV . Calcul
+
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 85
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
+
+
+État 67
+
+   41 Condition: tNOT Cond .
+
+    $défaut  réduction par utilisation de la règle 41 (Condition)
+
+
 État 68
 
-   48 Args: Arg tVIRGULE . Arg
+   42 Cond: Calcul tSUPEGAL . Calcul
 
-    tNB  décalage et aller à l'état 49
-    tID  décalage et aller à l'état 50
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
 
-    Calcul         aller à l'état 51
-    Grandeur       aller à l'état 52
-    AppelFonction  aller à l'état 53
-    Arg            aller à l'état 82
+    Calcul         aller à l'état 86
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 69
 
-   24 Affectation: tID tAFFECT Calcul tPV .
+   43 Cond: Calcul tINFEGAL . Calcul
 
-    $défaut  réduction par utilisation de la règle 24 (Affectation)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 87
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 70
 
-   15 BodyFonction: tACCO Declarations Actions tRETURN Calcul tPV . tACCF
+   44 Cond: Calcul tSUP . Calcul
 
-    tACCF  décalage et aller à l'état 83
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 88
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 71
 
-   39 Condition: tNOT Cond .
+   45 Cond: Calcul tINF . Calcul
 
-    $défaut  réduction par utilisation de la règle 39 (Condition)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 89
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 72
 
-   41 OpCondi: tSUPEGAL .
+   46 Cond: Calcul tDIFF . Calcul
 
-    $défaut  réduction par utilisation de la règle 41 (OpCondi)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 90
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 73
 
-   42 OpCondi: tINFEGAL .
+   47 Cond: Calcul tEGAL . Calcul
 
-    $défaut  réduction par utilisation de la règle 42 (OpCondi)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    Calcul         aller à l'état 91
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
 
 
 État 74
 
-   43 OpCondi: tSUP .
+   34 BlocWhile: tWHILE tPARO Condition tPARF . Body
 
-    $défaut  réduction par utilisation de la règle 43 (OpCondi)
+    tACCO  décalage et aller à l'état 92
+
+    Body  aller à l'état 93
 
 
 État 75
 
-   44 OpCondi: tINF .
+   35 BlocIf: tIF tPARO Condition tPARF . Body Else
 
-    $défaut  réduction par utilisation de la règle 44 (OpCondi)
+    tACCO  décalage et aller à l'état 92
+
+    Body  aller à l'état 94
 
 
 État 76
 
-   45 OpCondi: tDIFF .
+   50 Args: Calcul tVIRGULE . Args
 
-    $défaut  réduction par utilisation de la règle 45 (OpCondi)
+    tPARO  décalage et aller à l'état 45
+    tNB    décalage et aller à l'état 46
+    tID    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 52 (Args)
+
+    Calcul         aller à l'état 57
+    Parentheses    aller à l'état 49
+    Grandeur       aller à l'état 50
+    AppelFonction  aller à l'état 51
+    Args           aller à l'état 95
 
 
 État 77
 
-   46 OpCondi: tEGAL .
+   49 AppelFonction: tID tPARO Args tPARF . tPV
 
-    $défaut  réduction par utilisation de la règle 46 (OpCondi)
+    tPV  décalage et aller à l'état 96
 
 
 État 78
 
-   40 Cond: Calcul OpCondi . Calcul
+   23 Affectation: tID tAFFECT Calcul tPV .
 
-    tNB  décalage et aller à l'état 49
-    tID  décalage et aller à l'état 50
-
-    Calcul         aller à l'état 84
-    Grandeur       aller à l'état 52
-    AppelFonction  aller à l'état 53
+    $défaut  réduction par utilisation de la règle 23 (Affectation)
 
 
 État 79
 
-   34 Bloc: Cle tPARO Condition tPARF . Body
+   12 BodyFonction: tACCO Declarations Actions tRETURN Calcul tPV . tACCF
 
-    tACCO  décalage et aller à l'état 85
-
-    Body  aller à l'état 86
+    tACCF  décalage et aller à l'état 97
 
 
 État 80
 
-   26 Calcul: Grandeur Operateur Calcul .
+   31 Parentheses: tPARO Calcul tPARF .
 
-    $défaut  réduction par utilisation de la règle 26 (Calcul)
+    $défaut  réduction par utilisation de la règle 31 (Parentheses)
 
 
 État 81
 
-   47 AppelFonction: tID tPARO Args tPARF tPV .
+   53 Printf: tPRINTF tPARO Calcul tPARF tPV .
 
-    $défaut  réduction par utilisation de la règle 47 (AppelFonction)
+    $défaut  réduction par utilisation de la règle 53 (Printf)
 
 
 État 82
 
-   48 Args: Arg tVIRGULE Arg .
+   25 Calcul: Calcul . tPLUS Calcul
+   25       | Calcul tPLUS Calcul .
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
 
-    $défaut  réduction par utilisation de la règle 48 (Args)
+    tMULT  décalage et aller à l'état 64
+    tDIV   décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 25 (Calcul)
 
 
 État 83
 
-   15 BodyFonction: tACCO Declarations Actions tRETURN Calcul tPV tACCF .
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   26       | Calcul tMULT Calcul .
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
 
-    $défaut  réduction par utilisation de la règle 15 (BodyFonction)
+    $défaut  réduction par utilisation de la règle 26 (Calcul)
 
 
 État 84
 
-   40 Cond: Calcul OpCondi Calcul .
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   27       | Calcul tMOINS Calcul .
+   28       | Calcul . tDIV Calcul
 
-    $défaut  réduction par utilisation de la règle 40 (Cond)
+    tMULT  décalage et aller à l'état 64
+    tDIV   décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 27 (Calcul)
 
 
 État 85
 
-   37 Body: tACCO . Actions tACCF
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   28       | Calcul tDIV Calcul .
 
-    tWHILE  décalage et aller à l'état 32
-    tIF     décalage et aller à l'état 33
-    tID     décalage et aller à l'état 34
-
-    $défaut  réduction par utilisation de la règle 20 (Actions)
-
-    Actions        aller à l'état 87
-    Action         aller à l'état 36
-    Affectation    aller à l'état 37
-    Bloc           aller à l'état 38
-    Cle            aller à l'état 39
-    AppelFonction  aller à l'état 40
+    $défaut  réduction par utilisation de la règle 28 (Calcul)
 
 
 État 86
 
-   34 Bloc: Cle tPARO Condition tPARF Body .
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   42 Cond: Calcul tSUPEGAL Calcul .
 
-    $défaut  réduction par utilisation de la règle 34 (Bloc)
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 42 (Cond)
 
 
 État 87
 
-   37 Body: tACCO Actions . tACCF
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   43 Cond: Calcul tINFEGAL Calcul .
 
-    tACCF  décalage et aller à l'état 88
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 43 (Cond)
 
 
 État 88
 
-   37 Body: tACCO Actions tACCF .
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   44 Cond: Calcul tSUP Calcul .
 
-    $défaut  réduction par utilisation de la règle 37 (Body)
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 44 (Cond)
+
+
+État 89
+
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   45 Cond: Calcul tINF Calcul .
+
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 45 (Cond)
+
+
+État 90
+
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   46 Cond: Calcul tDIFF Calcul .
+
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 46 (Cond)
+
+
+État 91
+
+   25 Calcul: Calcul . tPLUS Calcul
+   26       | Calcul . tMULT Calcul
+   27       | Calcul . tMOINS Calcul
+   28       | Calcul . tDIV Calcul
+   47 Cond: Calcul tEGAL Calcul .
+
+    tPLUS   décalage et aller à l'état 63
+    tMULT   décalage et aller à l'état 64
+    tMOINS  décalage et aller à l'état 65
+    tDIV    décalage et aller à l'état 66
+
+    $défaut  réduction par utilisation de la règle 47 (Cond)
+
+
+État 92
+
+   39 Body: tACCO . Actions tACCF
+
+    tPRINTF  décalage et aller à l'état 24
+    tWHILE   décalage et aller à l'état 25
+    tIF      décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 17 (Actions)
+
+    Actions        aller à l'état 98
+    Action         aller à l'état 29
+    Affectation    aller à l'état 30
+    BlocWhile      aller à l'état 31
+    BlocIf         aller à l'état 32
+    AppelFonction  aller à l'état 33
+    Printf         aller à l'état 34
+
+
+État 93
+
+   34 BlocWhile: tWHILE tPARO Condition tPARF Body .
+
+    $défaut  réduction par utilisation de la règle 34 (BlocWhile)
+
+
+État 94
+
+   35 BlocIf: tIF tPARO Condition tPARF Body . Else
+
+    tELSE  décalage et aller à l'état 99
+
+    $défaut  réduction par utilisation de la règle 36 (Else)
+
+    Else  aller à l'état 100
+
+
+État 95
+
+   50 Args: Calcul tVIRGULE Args .
+
+    $défaut  réduction par utilisation de la règle 50 (Args)
+
+
+État 96
+
+   49 AppelFonction: tID tPARO Args tPARF tPV .
+
+    $défaut  réduction par utilisation de la règle 49 (AppelFonction)
+
+
+État 97
+
+   12 BodyFonction: tACCO Declarations Actions tRETURN Calcul tPV tACCF .
+
+    $défaut  réduction par utilisation de la règle 12 (BodyFonction)
+
+
+État 98
+
+   39 Body: tACCO Actions . tACCF
+
+    tACCF  décalage et aller à l'état 101
+
+
+État 99
+
+   37 Else: tELSE . BlocIf
+   38     | tELSE . Body
+
+    tACCO  décalage et aller à l'état 92
+    tIF    décalage et aller à l'état 26
+
+    BlocIf  aller à l'état 102
+    Body    aller à l'état 103
+
+
+État 100
+
+   35 BlocIf: tIF tPARO Condition tPARF Body Else .
+
+    $défaut  réduction par utilisation de la règle 35 (BlocIf)
+
+
+État 101
+
+   39 Body: tACCO Actions tACCF .
+
+    $défaut  réduction par utilisation de la règle 39 (Body)
+
+
+État 102
+
+   37 Else: tELSE BlocIf .
+
+    $défaut  réduction par utilisation de la règle 37 (Else)
+
+
+État 103
+
+   38 Else: tELSE Body .
+
+    $défaut  réduction par utilisation de la règle 38 (Else)

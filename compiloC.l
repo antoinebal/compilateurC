@@ -3,7 +3,6 @@
 %}
 %%
 [" "|"\t"|"\n"] {}
-"main" {return tMAIN;}
 "{" {return tACCO;}
 "}" {return tACCF;}
 "const" {return tCONST;}
@@ -14,6 +13,7 @@
 "while" {return tWHILE;}
 "void" {return tVOID;} 
 "if" {return tIF;}
+"else" {return tELSE;}
 "+" {return tPLUS;}
 "*" {return tMULT;}
 "-" {return tMOINS;}
@@ -30,5 +30,5 @@
 "return" {return tRETURN;}
 ";" {return tPV;}
 [a-zA-Z][a-zA-Z0-9_]* {return tID;}
-[0-9]+ {return tNB;}
+[0-9]+ {yylval.e = atoi(yytext); return tNB;}
 . {printf("error\n");}
