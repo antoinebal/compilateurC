@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <string.h>
 
 typedef struct ligne ligne;
 struct ligne {
-  int *type;
+  char *type;
   char *id;// = malloc (sizeof(*id)*20);
   int valeurConstante;
   int profondeur;
@@ -12,19 +13,37 @@ struct ligne {
 
 ligne ts[1024]; 
 
-int index=0;
+
+int idx=0;
 
 int adresseMemCourante= 400;
 
-void ajouterLigne(char* type, char* id, int valConst, int prof) {
-	//AJOUTER LES TESTS
-  strcopy(ts[index].type, type);
-  strcopy(ts[index].id, id);
-  ts[index].valeurConstante=valConst;
-  ts[index].profondeur=prof;
-  ts[index].adresseMemoire=adresseMemCourante;
+int profondeur=0;
 
-  index++;
+void descendre() {
+	prodondeur++;
+}
+
+void monter() {
+	//on descend l'index tant que l'entrée correspond à la prof actuelle
+	while(ts[idx].profondeur==profondeur) {
+		idx--;
+	}	
+
+	//on màj la profondeur
+	profondeur--;
+}
+
+
+void ajouterLigne(char* type, char* id, int valConst) {
+	//AJOUTER LES TESTS
+  	ts[idx].type= type;
+	ts[idx].id= id;
+ 	ts[idx].valeurConstante=valConst;
+  	ts[idx].profondeur=prof;
+  	ts[idx].adresseMemoire=adresseMemCourante;
+
+  idx++;
 
 	adresseMemCourante++;
 
@@ -41,10 +60,10 @@ void ajouterLigne(char* type, char* id, int valConst, int prof) {
 //peut être rajouter type + tard en argument
 int ajouterLigneTmp() {
 	//AJOUTER LES TESTS
-	ts[index].adresseMemoire=adresseMemCourante;
-	index++;
+	ts[idx].adresseMemoire=adresseMemCourante;
+	idx++;
 	adresseMemCourante++;
-	return index-1;	
+	return idx-1;	
 }
 
 
@@ -52,13 +71,55 @@ int getAdresse(int i) {
 	return ts[i].adresseMemoire;
 }
 
+int getIndexCourant() {
+	return idx;
+}
+
 int getIndex(char *idVar) {
 	int i=0;
-	while (i < index) {
+	while (i < idx) {
 		if (strcmp(ts[i].id, idVar) == 0) {
 			return i;
 		}
 		i++;
 	}
-	return -1;
+	return-1;
+}
+
+
+void pop() {
+	idx--;
+}
+
+
+
+void imprimerLigne(ligne l) {
+	printf("TYPE : %s \n", l.type);
+	printf("ID : %s \n", l.id);
+	printf("VC? : %d \n", l.valeurConstante);
+	printf("PROF : %d \n", l.profondeur);
+	printf("@Mem : %d \n", l.adresseMemoire);
+}
+
+int imprimerTS() {
+	for(int k = 0 ; k < idx ; k++) {
+		imprimerLigne(ts[k]);
+		printf("\n");
+	}
+
+}
+
+
+
+void main() {
+	ajouterLigne("int", "tchazos", 1);
+	
+	ajouterLigne("int", "tchazos", 1);
+	ajouterLigne("int", "tchazos", 1);
+	ajouterLigne("int", "tchazos", 1);
+	ajouterLigneTmp();
+	imprimerTS();
+
+	
+
 }

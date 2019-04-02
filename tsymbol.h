@@ -8,8 +8,10 @@ struct ligne {
   int profondeur;
   int adresseMemoire;
 };
-
-void ajouterLigne(char* type, char* id, int valConst, int prof);
+void ajouterLigne(char* type, char* id, int valConst);
 int ajouterLigneTmp();
 int getAdresse(int i);
 int getIndex(char *idVar);
+void pop();
+void imprimerLigne(ligne l);
+void imprimerTS();
