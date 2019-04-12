@@ -42,8 +42,8 @@ void ajouterLigne(char* type, char* id, int valConst) {
  	ts[idx].valeurConstante=valConst;
   	ts[idx].profondeur=prof;
   	ts[idx].adresseMemoire=adresseMemCourante;
-
-  idx++;
+  	
+	idx++;
 
 	adresseMemCourante++;
 
@@ -92,7 +92,6 @@ void pop() {
 }
 
 
-
 void imprimerLigne(ligne l) {
 	printf("TYPE : %s \n", l.type);
 	printf("ID : %s \n", l.id);
@@ -108,7 +107,6 @@ int imprimerTS() {
 	}
 
 }
-
 
 
 void main() {

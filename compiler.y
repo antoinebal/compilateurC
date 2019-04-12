@@ -1,5 +1,6 @@
 %{
-	#include "tsymbol.h"	
+	#include "tsymbol.h"
+	#include "tinstr.h"	
 	int yylex(void);
 	void yyerror(char*);
 %}
@@ -43,7 +44,7 @@ Declarations :  | Declaration Declarations ;
 Declaration : tINT tID tPV 
 	{
 	//on ajoute une ligne pour cette variable qu'on vient de déclarer
-	ajouterLigne("int ",$2, 0);	
+	ajouterLigne("int ",$2, 0);
 	};
 Actions : Action Actions |  ;
 Action : Affectation | BlocIf | BlocWhile | AppelFonction | Printf ; 
@@ -56,19 +57,31 @@ Calcul : Grandeur
 	printf("tPLUS\n");
 	int i = getIndexCourant();
 	int adresse_i = getAdresse(i);
-	printf("LOAD r0 %d", adresse_i);	
+	
+
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
 	pop();
+	
 	int j = getIndexCourant();
-	printf("LOAD r0 %d", adresse_j);
-	pop();
 	int adresse_j = getAdresse(j);
-	//générer les instricciones assemblores
-	/*
 	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction ADD r0 r0 r1
+	printf("ADD r0 r0 r1");	
+	ajouterInstr("add", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
 	
-	ADD r0 r0 r1
-	STORE getIndexCourant() (-2?) r0
-	*/
 	} 
 	| Calcul tMULT Calcul { printf("tMULT\n"); } 
 	| Calcul tMOINS Calcul { printf("tMOINS\n"); } 
@@ -81,10 +94,18 @@ Grandeur : tNB
 	int ind = ajouterLigneTmp();
 	int adresse = getAdresse(ind);
 	int tmp = ajouterLigneTmp();
+	
 	//ici on va générer les instructions MOV r0 $1 ,STORE adr r0
+	
+
+	//printf("AFC r0 %d\n", $1);
 	printf("AFC r0 %d\n", $1);
+	ajouterInstr("afc", 0, $1);
+
+
 	printf("STORE %d r0\n", getAdresse(tmp));
-	//instru_add(MOV,0,$1)
+	ajouterInstr("store", tmp, 0);
+
 	}
 	| tID 
 	{
@@ -92,8 +113,13 @@ Grandeur : tNB
 	int ind = getIndex($1);
 	int adresse = getAdresse(ind);
 	int tmp = ajouterLigneTmp();
+
 	printf("LOAD r0 %d\n", adresse);
+	ajoutInstr("load", 0, adresse);
+	
 	printf("STORE %d, r0\n", getAdresse(tmp));
+	ajoutInstr("store", tmp, 0);
+
 	$$ = tmp;
 	}
 	int ;
