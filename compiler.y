@@ -21,7 +21,9 @@
 
 //%type <e2> Operateur
 
-
+//tIFX token virtuel
+%nonassoc tIFX
+%nonassoc tELSE
 %%
 
 
@@ -39,7 +41,8 @@ Argument tVIRGULE Arguments |
 Argument | ;
 Argument : tINT tID ;
 //Attention on peut faire un return dans un void
-BodyFonction : tACCO Declarations Actions tACCF | tACCO Declarations Actions tRETURN Calcul tPV	 tACCF; 
+BodyFonction : tACCO Declarations Actions tACCF | tACCO Declarations Actions tRETURN Calcul tPV	 tACCF;
+//generer instruction? 
 Declarations :  | Declaration Declarations ; 
 Declaration : tINT tID tPV 
 	{
@@ -58,7 +61,6 @@ Calcul : Grandeur
 	int i = getIndexCourant();
 	int adresse_i = getAdresse(i);
 	
-
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
@@ -83,9 +85,109 @@ Calcul : Grandeur
 	ajouterInstr("store", adresse_j, 0);
 	
 	} 
-	| Calcul tMULT Calcul { printf("tMULT\n"); } 
-	| Calcul tMOINS Calcul { printf("tMOINS\n"); } 
-	| Calcul tDIV Calcul { printf("tDIV\n"); }
+	| Calcul tMULT Calcul 
+	{ 
+
+	printf("tMULT\n"); 
+
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction MUL r0 r0 r1
+	printf("MUL r0 r0 r1");	
+	ajouterInstr("mul", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+
+	} 
+	| Calcul tMOINS Calcul
+	{ 
+
+	printf("tMOINS\n"); 
+
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction SOU r0 r0 r1
+	printf("SOU r0 r0 r1");	
+	ajouterInstr("sou", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+
+	} 
+	| Calcul tDIV Calcul
+	{ 
+
+	printf("tDIV\n");
+
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	QU r0 r0 r1
+	printf("EQU r0 r0 r1");	
+	ajouterInstr("equ", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction DIV r0 r0 r1
+	printf("DIV r0 r0 r1");	
+	ajouterInstr("div", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+
+	} 
 	| AppelFonction | Parentheses;
 Parentheses : tPARO Calcul tPARF;
 Grandeur : tNB 
@@ -97,7 +199,6 @@ Grandeur : tNB
 	
 	//ici on va générer les instructions MOV r0 $1 ,STORE adr r0
 	
-
 	//printf("AFC r0 %d\n", $1);
 	printf("AFC r0 %d\n", $1);
 	ajouterInstr("afc", 0, $1);
@@ -122,12 +223,54 @@ Grandeur : tNB
 
 	$$ = tmp;
 	}
-	int ;
 
 
 BlocWhile : tWHILE tPARO Condition tPARF Body;
 
-BlocIf : tIF tPARO Condition tPARF Body Else ;
+//générer instruction avec flag
+//on associe la priorité de tIFX à cette règle, pour qu'elle soit moins prio que celle d'après
+BlocIf : tIF tPARO Condition tPARF
+{
+	int derniereAdresse = getAdresse(getIndexCourant());
+	
+	ajoutInstr("load", 0, derniereAdresse);
+
+	pop();
+
+	ajoutInstr("jmpc", -1, 1); 
+	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
+	$1 = getMemInstruction()-1;
+}
+ Body %prec tIFX
+{
+	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
+	// qui a sans doute été changé dans le Body de la règle
+	getInstrAtIdx($1).arg[0]=getMemInstruction();
+}
+	//le if le plus près du else est le plus prioritaire
+
+| tIF tPARO Condition tPARF 
+{
+	int derniereAdresse = getAdresse(getIndexCourant());
+	
+	ajoutInstr("load", 0, derniereAdresse);
+
+	pop();
+
+	ajoutInstr("jmpc", -1, 1); 
+	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
+	$1 = getMemInstruction()-1;
+}
+Body 
+{
+	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
+	// qui a sans doute été changé dans le Body de la règle
+	getInstrAtIdx($1).arg[0]=getMemInstruction();
+
+	// 
+}
+Else ;
+
 Else : | tELSE BlocIf | tELSE Body ;
 //body spécial qui ne permet pas les déclarations
 Body : tACCO
@@ -139,8 +282,174 @@ Actions tACCF
 	monter();
 };
 Condition : Cond | tNOT Cond ;
-Cond : Calcul tSUPEGAL Calcul | Calcul tINFEGAL Calcul | Calcul tSUP Calcul |
-Calcul tINF Calcul | Calcul tDIFF Calcul | Calcul tEGAL Calcul | Calcul;
+Cond : Calcul tSUPEGAL Calcul 
+{
+	
+	printf("Cond Supe\n"); 
+
+	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction SUPE r0 r0 r1
+	printf("SUPE r0 r0 r1");	
+	ajouterInstr("supe", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+}
+| Calcul tINFEGAL Calcul | Calcul tSUP Calcul 
+{
+	printf("Cond\n"); 
+
+	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction INFE r0 r0 r1
+	printf("INFE r0 r0 r1");	
+	ajouterInstr("infe", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+}
+| Calcul tINF Calcul
+{
+	
+	printf("Cond INF\n"); 
+
+	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction INF r0 r0 r1
+	printf("INF r0 r0 r1");	
+	ajouterInstr("inf", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+}
+ | Calcul tDIFF Calcul 
+{
+	
+	printf("Cond DIFF\n"); 
+
+	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	/*
+	pour vérifier que r0 != r2 on va d'abord faire un equ
+	puis comparer le résultat de ce equ avec 0 (avec equ)
+	*/
+	printf("EQU r0 r0 r1");	
+	ajouterInstr("equ", 0, 0, 1);
+
+	//on met 0 dans r1
+	printf("AFC r1 0");
+	ajouterInstr("afc", 1, 0);
+
+	//on compare ensuite avec 0
+	printf("EQU r0 r0 r1");	
+	ajouterInstr("equ", 0, 0, 1);
+
+	//(le move fr)
+
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+}
+| Calcul tEGAL Calcul 
+{	
+	printf("Cond EGAL\n"); 
+
+	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
+	int i = getIndexCourant();
+	int adresse_i = getAdresse(i);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr("load", 0, adresse_i);
+
+	pop();
+	
+	int j = getIndexCourant();
+	int adresse_j = getAdresse(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr("load", 1, adresse_j);
+
+	//on ajoute l'instruction EQU r0 r0 r1
+	printf("EQU r0 r0 r1");	
+	ajouterInstr("equ", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr("store", adresse_j, 0);
+}
+| Calcul;
 //cette fonction doit être void
 AppelFonction : tID tPARO Args tPARF tPV;
 //même chose que dans la déclaration des fonctions mais sans les types

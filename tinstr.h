@@ -14,3 +14,5 @@ void ajouterFlag(char* flag);
 void ajouterInstr(char* instr, argument arg);
 void ajouterInstr(char* instr, argument arg1, argument arg2);
 void ajouterInstr(char* instr, argument arg1, argument arg2, argument arg3);
+int getMemInstruction();
+int getInstructionAtIdx(int index);
