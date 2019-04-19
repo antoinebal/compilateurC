@@ -1,18 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-
-typedef struct ligne ligne;
-struct ligne {
-  char *type;
-  char *id;// = malloc (sizeof(*id)*20);
-  int valeurConstante;
-  int profondeur;
-  int adresseMemoire;
-};
-  
+#include "tsymbol.h"
 
 ligne ts[1024]; 
-
 
 int idx=0;
 
@@ -21,7 +11,7 @@ int adresseMemCourante= 400;
 int profondeur=0;
 
 void descendre() {
-	prodondeur++;
+	profondeur++;
 }
 
 void monter() {
@@ -40,7 +30,7 @@ void ajouterLigne(char* type, char* id, int valConst) {
   	ts[idx].type= type;
 	ts[idx].id= id;
  	ts[idx].valeurConstante=valConst;
-  	ts[idx].profondeur=prof;
+  	ts[idx].profondeur=profondeur;
   	ts[idx].adresseMemoire=adresseMemCourante;
   	
 	idx++;
@@ -100,7 +90,7 @@ void imprimerLigne(ligne l) {
 	printf("@Mem : %d \n", l.adresseMemoire);
 }
 
-int imprimerTS() {
+void imprimerTS() {
 	for(int k = 0 ; k < idx ; k++) {
 		imprimerLigne(ts[k]);
 		printf("\n");
@@ -108,7 +98,7 @@ int imprimerTS() {
 
 }
 
-
+/*
 void main() {
 	ajouterLigne("int", "tchazos", 1);
 	
@@ -121,3 +111,4 @@ void main() {
 	
 
 }
+*/

@@ -1,5 +1,5 @@
 compiler:y.tab.c lex.yy.c
-	gcc lex.yy.c y.tab.c -o compiler -ly -ll
+	gcc lex.yy.c y.tab.c tinstr.c tsymbol.c -o compiler -ly -ll
 
 lex.yy.c: compiloC.l
 	flex compiloC.l

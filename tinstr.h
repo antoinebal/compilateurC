@@ -1,18 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct instruction instruction;
 struct instruction {
 	char* instr; //load, store, etc.
-	argument arg[3]; //numéro de registre ou adresse
+	int arg[3]; //numéro de registre ou adresse
 };
-typedef struct argument argument;
-struct argument {
-	int numeroRegistre;
-	int adresseMemoire;
-}
+
 void ajouterFlag(char* flag);
-void ajouterInstr(char* instr, argument arg);
-void ajouterInstr(char* instr, argument arg1, argument arg2);
-void ajouterInstr(char* instr, argument arg1, argument arg2, argument arg3);
+void ajouterInstr1(char* instr, int arg);
+void ajouterInstr2(char* instr, int arg1, int arg2);
+void ajouterInstr3(char* instr, int arg1, int arg2, int arg3);
 int getMemInstruction();
-int getInstructionAtIdx(int index);
+instruction getInstrAtIdx(int index);

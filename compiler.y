@@ -18,6 +18,10 @@
 
 %type <e2> tID
 %type <e> tNB 
+%type <e> Grandeur;
+%type <e> tWHILE;
+%type <e> tIF;
+
 
 //%type <e2> Operateur
 
@@ -64,7 +68,7 @@ Calcul : Grandeur
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -73,16 +77,16 @@ Calcul : Grandeur
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction ADD r0 r0 r1
 	printf("ADD r0 r0 r1");	
-	ajouterInstr("add", 0, 0, 1);
+	ajouterInstr3("add", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 	
 	} 
 	| Calcul tMULT Calcul 
@@ -96,7 +100,7 @@ Calcul : Grandeur
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -105,16 +109,16 @@ Calcul : Grandeur
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction MUL r0 r0 r1
 	printf("MUL r0 r0 r1");	
-	ajouterInstr("mul", 0, 0, 1);
+	ajouterInstr3("mul", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 
 	} 
 	| Calcul tMOINS Calcul
@@ -128,7 +132,7 @@ Calcul : Grandeur
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -137,37 +141,30 @@ Calcul : Grandeur
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction SOU r0 r0 r1
 	printf("SOU r0 r0 r1");	
-	ajouterInstr("sou", 0, 0, 1);
+	ajouterInstr3("sou", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 
 	} 
 	| Calcul tDIV Calcul
 	{ 
 
-	printf("tDIV\n");
+	printf("tDIV\n"); 
 
 	int i = getIndexCourant();
 	int adresse_i = getAdresse(i);
 	
-	QU r0 r0 r1
-	printf("EQU r0 r0 r1");	
-	ajouterInstr("equ", 0, 0, 1);
-
-	//on ajoute l'instruction : STORE getIndexCourant() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -176,16 +173,16 @@ Calcul : Grandeur
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction DIV r0 r0 r1
 	printf("DIV r0 r0 r1");	
-	ajouterInstr("div", 0, 0, 1);
+	ajouterInstr3("div", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 
 	} 
 	| AppelFonction | Parentheses;
@@ -201,11 +198,11 @@ Grandeur : tNB
 	
 	//printf("AFC r0 %d\n", $1);
 	printf("AFC r0 %d\n", $1);
-	ajouterInstr("afc", 0, $1);
+	ajouterInstr2("afc", 0, $1);
 
 
 	printf("STORE %d r0\n", getAdresse(tmp));
-	ajouterInstr("store", tmp, 0);
+	ajouterInstr2("store", tmp, 0);
 
 	}
 	| tID 
@@ -216,32 +213,56 @@ Grandeur : tNB
 	int tmp = ajouterLigneTmp();
 
 	printf("LOAD r0 %d\n", adresse);
-	ajoutInstr("load", 0, adresse);
+	ajouterInstr2("load", 0, adresse);
 	
 	printf("STORE %d, r0\n", getAdresse(tmp));
-	ajoutInstr("store", tmp, 0);
+	ajouterInstr2("store", tmp, 0);
 
 	$$ = tmp;
 	}
 
 
-BlocWhile : tWHILE tPARO Condition tPARF Body;
-
-//générer instruction avec flag
-//on associe la priorité de tIFX à cette règle, pour qu'elle soit moins prio que celle d'après
-BlocIf : tIF tPARO Condition tPARF
+BlocWhile : tWHILE tPARO
 {
+	$<e>2=getMemInstruction();
+}
+ Condition tPARF 
+{
+	//si la condition n'est pas bonne on saute direct à la fin
 	int derniereAdresse = getAdresse(getIndexCourant());
-	
-	ajoutInstr("load", 0, derniereAdresse);
-
+	ajouterInstr2("load", 1, derniereAdresse);
 	pop();
-
-	ajoutInstr("jmpc", -1, 1); 
+	//-1 sera à remplacer par l'adr
+	ajouterInstr2("jmpc", -1, 1); 
 	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
 	$1 = getMemInstruction()-1;
 }
- Body %prec tIFX
+Body
+{
+	//on ajoute un jump dans tous les cas avant le jmpc
+	ajouterInstr1("jmp", $<e>2);
+
+	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
+	// qui a sans doute été changé dans le Body de la règle et avec l'inst jmp juste avant
+	getInstrAtIdx($1).arg[0]=getMemInstruction();
+}
+;
+
+//générer instruction avec flag
+//on associe la priorité de tIFX à cette règle, pour qu'elle soit moins prio que celle d'après
+//règle : BlocIf : tIF tPARO Condition tPARF
+BlocIf : tIF tPARO Condition tPARF %prec tIFX
+{
+	int derniereAdresse = getAdresse(getIndexCourant());
+	ajouterInstr2("load", 1, derniereAdresse);
+
+	pop();
+
+	ajouterInstr2("jmpc", -1, 1); 
+	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
+	$1 = getMemInstruction()-1;
+}
+ Body
 {
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
@@ -249,29 +270,43 @@ BlocIf : tIF tPARO Condition tPARF
 }
 	//le if le plus près du else est le plus prioritaire
 
+
+//règle : BlocIf : tIF tPARO Condition tPARF Body Else ;
 | tIF tPARO Condition tPARF 
 {
 	int derniereAdresse = getAdresse(getIndexCourant());
-	
-	ajoutInstr("load", 0, derniereAdresse);
 
+	ajouterInstr2("load", 1, derniereAdresse);
+	
 	pop();
 
-	ajoutInstr("jmpc", -1, 1); 
+	ajouterInstr2("jmpc", -1, 1); 
 	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
 	$1 = getMemInstruction()-1;
 }
 Body 
 {
+	
+
+	// ajout d'un jump pour sauter à la fin de tous les else
+	ajouterInstr1("jmp", -1);
+
+	// on stocke l'adresse de cette instruction
+	$<e>2 = getMemInstruction()-1;
+
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
 	getInstrAtIdx($1).arg[0]=getMemInstruction();
-
-	// 
 }
-Else ;
+Else 
+{
+	getInstrAtIdx($<e>2).arg[0]=getMemInstruction();
+}
+;
 
 Else : | tELSE BlocIf | tELSE Body ;
+
+
 //body spécial qui ne permet pas les déclarations
 Body : tACCO
 {
@@ -293,7 +328,7 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -302,16 +337,16 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction SUPE r0 r0 r1
 	printf("SUPE r0 r0 r1");	
-	ajouterInstr("supe", 0, 0, 1);
+	ajouterInstr3("supe", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul tINFEGAL Calcul | Calcul tSUP Calcul 
 {
@@ -323,7 +358,7 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -332,16 +367,16 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction INFE r0 r0 r1
 	printf("INFE r0 r0 r1");	
-	ajouterInstr("infe", 0, 0, 1);
+	ajouterInstr3("infe", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul tINF Calcul
 {
@@ -354,7 +389,7 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -363,16 +398,16 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction INF r0 r0 r1
 	printf("INF r0 r0 r1");	
-	ajouterInstr("inf", 0, 0, 1);
+	ajouterInstr3("inf", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 }
  | Calcul tDIFF Calcul 
 {
@@ -385,7 +420,7 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -394,22 +429,22 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	/*
 	pour vérifier que r0 != r2 on va d'abord faire un equ
 	puis comparer le résultat de ce equ avec 0 (avec equ)
 	*/
 	printf("EQU r0 r0 r1");	
-	ajouterInstr("equ", 0, 0, 1);
+	ajouterInstr3("equ", 0, 0, 1);
 
 	//on met 0 dans r1
 	printf("AFC r1 0");
-	ajouterInstr("afc", 1, 0);
+	ajouterInstr2("afc", 1, 0);
 
 	//on compare ensuite avec 0
 	printf("EQU r0 r0 r1");	
-	ajouterInstr("equ", 0, 0, 1);
+	ajouterInstr3("equ", 0, 0, 1);
 
 	//(le move fr)
 
@@ -417,7 +452,7 @@ Cond : Calcul tSUPEGAL Calcul
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul tEGAL Calcul 
 {	
@@ -429,7 +464,7 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
-	ajouterInstr("load", 0, adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
 
 	pop();
 	
@@ -438,16 +473,16 @@ Cond : Calcul tSUPEGAL Calcul
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
-	ajouterInstr("load", 1, adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction EQU r0 r0 r1
 	printf("EQU r0 r0 r1");	
-	ajouterInstr("equ", 0, 0, 1);
+	ajouterInstr3("equ", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexCourant() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
-	ajouterInstr("store", adresse_j, 0);
+	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul;
 //cette fonction doit être void

@@ -73,7 +73,8 @@ extern int yydebug;
     tPV = 283,
     tVOID = 284,
     tID = 285,
-    tELSE = 286
+    tELSE = 286,
+    tIFX = 287
   };
 #endif
 /* Tokens.  */
@@ -106,18 +107,19 @@ extern int yydebug;
 #define tVOID 284
 #define tID 285
 #define tELSE 286
+#define tIFX 287
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 12 "compiler.y" /* yacc.c:1909  */
+#line 14 "compiler.y" /* yacc.c:1909  */
 
 	int e;
 	char* e2;
 
-#line 121 "y.tab.h" /* yacc.c:1909  */
+#line 123 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

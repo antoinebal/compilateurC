@@ -15,3 +15,7 @@ int getIndex(char *idVar);
 void pop();
 void imprimerLigne(ligne l);
 void imprimerTS();
+int getIndexCourant();
+void monter();
+void descendre();
+
