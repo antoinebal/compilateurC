@@ -25,7 +25,7 @@ void monter() {
 }
 
 
-void ajouterLigne(char* type, char* id, int valConst) {
+void ajouterLigneTS(char* type, char* id, int valConst) {
 	//AJOUTER LES TESTS
   	ts[idx].type= type;
 	ts[idx].id= id;
@@ -48,7 +48,7 @@ void ajouterLigne(char* type, char* id, int valConst) {
 }
 
 //peut être rajouter type + tard en argument
-int ajouterLigneTmp() {
+int ajouterLigneTmpTS() {
 	//AJOUTER LES TESTS
 	ts[idx].adresseMemoire=adresseMemCourante;
 	idx++;
@@ -57,15 +57,15 @@ int ajouterLigneTmp() {
 }
 
 
-int getAdresse(int i) {
+int getAdresseTS(int i) {
 	return ts[i].adresseMemoire;
 }
 
-int getIndexCourant() {
+int getIndexCourantTS() {
 	return idx;
 }
 
-int getIndex(char *idVar) {
+int getIndexTS(char *idVar) {
 	int i=0;
 	while (i < idx) {
 		if (strcmp(ts[i].id, idVar) == 0) {
@@ -73,11 +73,12 @@ int getIndex(char *idVar) {
 		}
 		i++;
 	}
+	printf("L'id %s est inconnu \n", idVar);
 	return-1;
 }
 
 
-void pop() {
+void popTS() {
 	idx--;
 }
 

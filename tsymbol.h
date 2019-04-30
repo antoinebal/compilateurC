@@ -3,19 +3,19 @@
 typedef struct ligne ligne;
 struct ligne {
   int *type;
-  char *id;// = malloc (sizeof(*id)*20);
+  char *id;
   int valeurConstante;
   int profondeur;
   int adresseMemoire;
 };
-void ajouterLigne(char* type, char* id, int valConst);
-int ajouterLigneTmp();
-int getAdresse(int i);
-int getIndex(char *idVar);
-void pop();
+void ajouterLigneTS(char* type, char* id, int valConst);
+int ajouterLigneTmpTS();
+int getAdresseTS(int i);
+int getIndexTS(char *idVar);
+void popTS();
 void imprimerLigne(ligne l);
 void imprimerTS();
-int getIndexCourant();
+int getIndexCourantTS();
 void monter();
 void descendre();
 
