@@ -347,7 +347,7 @@ Body
 
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle et avec l'inst jmp juste avant
-	getInstrAtIdx($1).arg[0]=getMemInstruction();
+	modifierInstrAtIdx($1, 0, getMemInstruction());
 }
 ;
 
@@ -409,11 +409,11 @@ action_if Body
 
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
-	getInstrAtIdx($5).arg[0]=getMemInstruction();
+	modifierInstrAtIdx($5, 0, getMemInstruction());
 }
 Else 
 {
-	getInstrAtIdx($<e>2).arg[0]=getMemInstruction();
+	modifierInstrAtIdx($<e>2, 0, getMemInstruction());
 }
 ;
 
