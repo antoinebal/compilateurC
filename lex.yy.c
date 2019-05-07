@@ -920,7 +920,7 @@ YY_RULE_SETUP
 case 28:
 YY_RULE_SETUP
 #line 32 "compiloC.l"
-{return tID;}
+{yylval.e2 = strdup(yytext); return tID;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP

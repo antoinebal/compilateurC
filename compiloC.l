@@ -29,6 +29,6 @@
 "," {return tVIRGULE;}
 "return" {return tRETURN;}
 ";" {return tPV;}
-[a-zA-Z][a-zA-Z0-9_]* {return tID;}
+[a-zA-Z][a-zA-Z0-9_]* {yylval.e2 = strdup(yytext); return tID;}
 [0-9]+ {yylval.e = atoi(yytext); return tNB;}
 . {printf("error\n");}

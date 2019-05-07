@@ -13,3 +13,6 @@ void ajouterInstr2(char* instr, int arg1, int arg2);
 void ajouterInstr3(char* instr, int arg1, int arg2, int arg3);
 int getMemInstruction();
 instruction getInstrAtIdx(int index);
+void printInstr(instruction instr);
+void printT_Instr();
+void modifierInstrAtIdx(int index, int numeroArg, int newValue);

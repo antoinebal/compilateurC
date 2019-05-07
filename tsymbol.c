@@ -27,6 +27,7 @@ void monter() {
 
 void ajouterLigneTS(char* type, char* id, int valConst) {
 	//AJOUTER LES TESTS
+	printf("On ajoute la ligne de %s \n", id); 
   	ts[idx].type= type;
 	ts[idx].id= id;
  	ts[idx].valeurConstante=valConst;
@@ -65,6 +66,10 @@ int getIndexCourantTS() {
 	return idx;
 }
 
+int getIndexDerniereEntreeTS() {
+	return idx-1;
+} 
+
 int getIndexTS(char *idVar) {
 	int i=0;
 	while (i < idx) {
@@ -80,6 +85,7 @@ int getIndexTS(char *idVar) {
 
 void popTS() {
 	idx--;
+	adresseMemCourante--;
 }
 
 
@@ -92,6 +98,7 @@ void imprimerLigne(ligne l) {
 }
 
 void imprimerTS() {
+	printf("**TS**\n");
 	for(int k = 0 ; k < idx ; k++) {
 		imprimerLigne(ts[k]);
 		printf("\n");

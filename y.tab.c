@@ -437,16 +437,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   116
+#define YYLAST   115
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  33
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  32
+#define YYNNTS  31
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  62
+#define YYNRULES  60
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  112
+#define YYNSTATES  110
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -495,13 +495,13 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    34,    34,    35,    35,    37,    36,    42,    42,    44,
-      45,    45,    46,    48,    48,    50,    50,    51,    56,    56,
-      57,    57,    57,    57,    57,    58,    61,    62,    92,   124,
-     156,   188,   188,   189,   190,   208,   226,   230,   225,   255,
-     254,   276,   288,   275,   307,   307,   307,   312,   311,   319,
-     319,   320,   351,   351,   381,   412,   457,   487,   489,   491,
-     491,   491,   493
+       0,    34,    34,    35,    35,    37,    36,    43,    43,    47,
+      48,    48,    50,    60,    60,    63,    63,    68,    76,    76,
+      77,    77,    77,    77,    77,    80,   115,   116,   152,   191,
+     229,   267,   267,   268,   271,   293,   326,   331,   318,   355,
+     369,   401,   390,   420,   420,   425,   424,   433,   433,   434,
+     472,   510,   547,   585,   640,   677,   679,   681,   681,   681,
+     683
 };
 #endif
 
@@ -517,8 +517,8 @@ static const char *const yytname[] =
   "tID", "tELSE", "tIFX", "$accept", "start", "Fonctions", "Fonction",
   "$@1", "Type", "Arguments", "Argument", "BodyFonction", "Declarations",
   "Declaration", "Actions", "Action", "Affectation", "Calcul",
-  "Parentheses", "Grandeur", "BlocWhile", "$@2", "$@3", "BlocIf", "$@4",
-  "$@5", "$@6", "Else", "Body", "$@7", "Condition", "Cond",
+  "Parentheses", "Grandeur", "BlocWhile", "$@2", "$@3", "action_if",
+  "BlocIf", "$@4", "Else", "Body", "$@5", "Condition", "Cond",
   "AppelFonction", "Args", "Printf", YY_NULLPTR
 };
 #endif
@@ -535,12 +535,12 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -38
+#define YYPACT_NINF -72
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-38)))
+  (!!((Yystate) == (-72)))
 
-#define YYTABLE_NINF -1
+#define YYTABLE_NINF -42
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -549,18 +549,17 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      12,   -38,   -38,    16,   -38,    12,   -13,   -38,   -38,   -38,
-      15,    17,    -3,    27,    29,   -38,    40,    17,    51,   -38,
-     -38,    30,     3,    51,    35,    58,    62,    78,    -1,    19,
-       3,   -38,   -38,   -38,   -38,   -38,   -38,   -38,    -2,   -38,
-      -4,    -2,    -2,   -38,    -2,   -38,    -2,   -38,    79,    76,
-     -38,   -38,   -38,    -4,    -2,    59,    93,   -38,    42,    94,
-      33,    37,    80,    74,    -2,    -2,    -2,    -2,    96,   -38,
-      -2,    -2,    -2,    -2,    -2,    -2,   -38,    -2,    77,   -38,
-      82,   -38,   -38,    54,   -38,    54,   -38,   -38,    84,    84,
-      84,    84,    84,    84,   101,   101,   -38,   -38,   -38,   101,
-     -38,   -38,   -38,   -38,     3,    75,   103,     7,   -38,   -38,
-     -38,   -38
+      12,   -72,   -72,    16,   -72,    12,   -13,   -72,   -72,   -72,
+      15,    17,    13,    46,    35,   -72,    59,    17,    55,   -72,
+     -72,    34,     3,    55,    39,    62,    76,    77,    -1,    19,
+       3,   -72,   -72,   -72,   -72,   -72,   -72,   -72,    -2,   -72,
+      -4,    -2,    -2,   -72,    -2,   -72,    -2,   -72,    92,    74,
+     -72,   -72,   -72,    -4,    -2,    57,    93,   -72,    42,    94,
+      33,    37,    78,    56,    -2,    -2,    -2,    -2,    95,   -72,
+      -2,    -2,    -2,    -2,    -2,    -2,   -72,    -2,    71,   -72,
+      99,   -72,   -72,    45,   -72,    45,   -72,   -72,    82,    82,
+      82,    82,    82,    82,   101,   -72,   -72,   -72,   101,   -72,
+      75,   -72,     3,    79,   103,     7,   -72,   -72,   -72,   -72
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -572,67 +571,66 @@ static const yytype_uint8 yydefact[] =
        0,    11,     0,     0,    10,    12,     0,    11,    15,     6,
        9,     0,    19,    15,     0,     0,     0,     0,     0,     0,
       19,    20,    22,    21,    23,    24,    16,    17,     0,    36,
-       0,    61,     0,    13,     0,    18,     0,    34,    35,     0,
-      32,    26,    31,     0,     0,    57,     0,    49,    60,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    50,
-       0,     0,     0,     0,     0,     0,    39,    61,     0,    25,
-       0,    33,    62,    27,    28,    29,    30,    37,    51,    52,
-      53,    54,    55,    56,     0,     0,    59,    58,    14,     0,
-      47,    40,    42,    38,    19,    44,     0,     0,    43,    48,
-      45,    46
+       0,    59,     0,    13,     0,    18,     0,    34,    35,     0,
+      32,    26,    31,     0,     0,    55,     0,    47,    58,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    48,
+       0,     0,     0,     0,     0,     0,    39,    59,     0,    25,
+       0,    33,    60,    27,    28,    29,    30,    37,    49,    50,
+      51,    52,    53,    54,     0,    57,    56,    14,     0,    45,
+      40,    38,    19,     0,     0,     0,    42,    46,    43,    44
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -38,   -38,   104,   -38,   -38,   -38,    91,   -38,   -38,    87,
-     -38,   -29,   -38,   -38,   -35,   -38,   -38,   -38,   -38,   -38,
-       4,   -38,   -38,   -38,   -38,   -37,   -38,    60,    61,   -22,
-      39,   -38
+     -72,   -72,   100,   -72,   -72,   -72,    91,   -72,   -72,    86,
+     -72,   -29,   -72,   -72,   -35,   -72,   -72,   -72,   -72,   -72,
+     -72,     6,   -72,   -72,   -71,   -72,    60,    58,   -22,    38,
+     -72
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
       -1,     3,     4,     5,    10,     6,    13,    14,    19,    22,
-      23,    29,    30,    31,    55,    50,    51,    32,    53,    99,
-      33,    94,    95,   105,   108,   101,   104,    56,    57,    52,
-      59,    35
+      23,    29,    30,    31,    55,    50,    51,    32,    53,    98,
+      94,    33,   103,   106,   100,   102,    56,    57,    52,    59,
+      35
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_uint8 yytable[] =
+static const yytype_int8 yytable[] =
 {
       34,    45,    46,    49,    46,    41,    58,    60,    34,    61,
-     100,    62,    25,    26,    27,    42,     7,     9,    27,    54,
-       1,    11,    47,    43,    47,    12,    48,    15,    48,    83,
-      84,    85,    86,    28,    16,    88,    89,    90,    91,    92,
-      93,     2,    58,    18,    44,    64,    65,    66,    67,    64,
-      65,    66,    67,    17,    64,    65,    66,    67,   102,    21,
-      24,    79,   103,    37,    38,    80,    77,    65,    39,    67,
-     111,    64,    65,    66,    67,   106,    70,    71,    72,    73,
-      74,    75,    34,    63,    40,    41,    98,    81,    64,    65,
-      66,    67,    64,    65,    66,    67,    64,    65,    66,    67,
-      76,    78,    82,    87,   100,    97,   107,   109,    20,     8,
-      36,   110,     0,    68,     0,    69,    96
+      99,    62,    25,    26,    27,    42,     7,     9,    27,    54,
+       1,    11,    47,    43,    47,    12,    48,   101,    48,    83,
+      84,    85,    86,    28,   109,    88,    89,    90,    91,    92,
+      93,     2,    58,    15,    44,    64,    65,    66,    67,    64,
+      65,    66,    67,    16,    64,    65,    66,    67,    65,    17,
+      67,    79,    18,    21,    24,    80,    77,    37,    38,    64,
+      65,    66,    67,   104,    70,    71,    72,    73,    74,    75,
+      34,    63,    39,    40,    82,    81,    64,    65,    66,    67,
+      64,    65,    66,    67,    64,    65,    66,    67,    41,    96,
+      76,    78,    87,    97,    99,     8,   -41,   107,    20,    36,
+     105,   108,    69,    68,     0,    95
 };
 
 static const yytype_int8 yycheck[] =
 {
       22,    30,     6,    38,     6,     6,    41,    42,    30,    44,
        3,    46,     9,    10,    11,    16,     0,    30,    11,    23,
-       8,     6,    26,     4,    26,     8,    30,    30,    30,    64,
-      65,    66,    67,    30,     7,    70,    71,    72,    73,    74,
-      75,    29,    77,     3,    25,    12,    13,    14,    15,    12,
-      13,    14,    15,    24,    12,    13,    14,    15,    95,     8,
-      30,    28,    99,    28,     6,    28,    24,    13,     6,    15,
-     107,    12,    13,    14,    15,   104,    17,    18,    19,    20,
-      21,    22,   104,     7,     6,     6,     4,     7,    12,    13,
-      14,    15,    12,    13,    14,    15,    12,    13,    14,    15,
-       7,     7,    28,     7,     3,    28,    31,     4,    17,     5,
-      23,   107,    -1,    53,    -1,    54,    77
+       8,     6,    26,     4,    26,     8,    30,    98,    30,    64,
+      65,    66,    67,    30,   105,    70,    71,    72,    73,    74,
+      75,    29,    77,    30,    25,    12,    13,    14,    15,    12,
+      13,    14,    15,     7,    12,    13,    14,    15,    13,    24,
+      15,    28,     3,     8,    30,    28,    24,    28,     6,    12,
+      13,    14,    15,   102,    17,    18,    19,    20,    21,    22,
+     102,     7,     6,     6,    28,     7,    12,    13,    14,    15,
+      12,    13,    14,    15,    12,    13,    14,    15,     6,    28,
+       7,     7,     7,     4,     3,     5,    31,     4,    17,    23,
+      31,   105,    54,    53,    -1,    77
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -642,15 +640,14 @@ static const yytype_uint8 yystos[] =
        0,     8,    29,    34,    35,    36,    38,     0,    35,    30,
       37,     6,     8,    39,    40,    30,     7,    24,     3,    41,
       39,     8,    42,    43,    30,     9,    10,    11,    30,    44,
-      45,    46,    50,    53,    62,    64,    42,    28,     6,     6,
+      45,    46,    50,    54,    61,    63,    42,    28,     6,     6,
        6,     6,    16,     4,    25,    44,     6,    26,    30,    47,
-      48,    49,    62,    51,    23,    47,    60,    61,    47,    63,
-      47,    47,    47,     7,    12,    13,    14,    15,    60,    61,
+      48,    49,    61,    51,    23,    47,    59,    60,    47,    62,
+      47,    47,    47,     7,    12,    13,    14,    15,    59,    60,
       17,    18,    19,    20,    21,    22,     7,    24,     7,    28,
       28,     7,    28,    47,    47,    47,    47,     7,    47,    47,
-      47,    47,    47,    47,    54,    55,    63,    28,     4,    52,
-       3,    58,    58,    58,    59,    56,    44,    31,    57,     4,
-      53,    58
+      47,    47,    47,    47,    53,    62,    28,     4,    52,     3,
+      57,    57,    58,    55,    44,    31,    56,     4,    54,    57
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -659,10 +656,10 @@ static const yytype_uint8 yyr1[] =
        0,    33,    34,    35,    35,    37,    36,    38,    38,    39,
       39,    39,    40,    41,    41,    42,    42,    43,    44,    44,
       45,    45,    45,    45,    45,    46,    47,    47,    47,    47,
-      47,    47,    47,    48,    49,    49,    51,    52,    50,    54,
-      53,    55,    56,    53,    57,    57,    57,    59,    58,    60,
-      60,    61,    61,    61,    61,    61,    61,    61,    62,    63,
-      63,    63,    64
+      47,    47,    47,    48,    49,    49,    51,    52,    50,    53,
+      54,    55,    54,    56,    56,    58,    57,    59,    59,    60,
+      60,    60,    60,    60,    60,    60,    61,    62,    62,    62,
+      63
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -672,9 +669,9 @@ static const yytype_uint8 yyr2[] =
        1,     0,     2,     4,     7,     0,     2,     3,     2,     0,
        1,     1,     1,     1,     1,     4,     1,     3,     3,     3,
        3,     1,     1,     3,     1,     1,     0,     0,     7,     0,
-       6,     0,     0,     8,     0,     2,     2,     0,     4,     1,
-       2,     3,     3,     3,     3,     3,     3,     1,     5,     3,
-       1,     0,     5
+       6,     0,     8,     2,     2,     0,     4,     1,     2,     3,
+       3,     3,     3,     3,     3,     1,     5,     3,     1,     0,
+       5
 };
 
 
@@ -1356,40 +1353,73 @@ yyreduce:
 //on inclue les arguments qui ne sont visibles que dans le body de la fonction 
 descendre();
 }
-#line 1360 "y.tab.c" /* yacc.c:1646  */
+#line 1357 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 41 "compiler.y" /* yacc.c:1646  */
     {monter();}
-#line 1366 "y.tab.c" /* yacc.c:1646  */
+#line 1363 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 52 "compiler.y" /* yacc.c:1646  */
+#line 69 "compiler.y" /* yacc.c:1646  */
     {
-	//on ajoute une ligne pour cette variable qu'on vient de déclarer
-	ajouterLigne("int ",(yyvsp[-1].e2), 0);
+	//on ajoute une ligne dans ts pour cette variable qu'on vient de déclarer
+	printf("%s", (yyvsp[-1].e2));
+	ajouterLigneTS("int ",(yyvsp[-1].e2), 0);
+	imprimerTS();
 	}
-#line 1375 "y.tab.c" /* yacc.c:1646  */
+#line 1374 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 25:
+#line 87 "compiler.y" /* yacc.c:1646  */
+    {
+	printf("\nAffectation\n");
+
+	//on récup la dernière valeur dans ts
+	imprimerTS();
+	int i = getIndexDerniereEntreeTS();
+	printf("i=%d\n", i);
+	int adresse_i = getAdresseTS(i);
+	popTS();
+
+	//on récup l'adresse de tID
+	printf("\n Dans affect, valeur de ID : %s \n", (yyvsp[-3].e2));
+	int idx_tID = getIndexTS((yyvsp[-3].e2));
+	int adresse_tID = getAdresseTS(idx_tID);
+
+	//on load la dernière valeur de ts récupérée dans r0
+	printf("LOAD r0 %d\n", adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
+
+	//on cop r1 dans r0
+	//printf("COP r0 r1");
+	//ajouterInstr2("cop", 0, 1);
+
+	//on store la nouvelle valeur (dans r0) à l'adresse de tID
+	printf("STORE %d r0\n", adresse_tID);
+	ajouterInstr2("store", adresse_tID, 0);
+}
+#line 1406 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 63 "compiler.y" /* yacc.c:1646  */
+#line 124 "compiler.y" /* yacc.c:1646  */
     { 
 	printf("tPLUS\n");
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
-	
-	
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
+		
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1399,33 +1429,32 @@ descendre();
 	printf("ADD r0 r0 r1");	
 	ajouterInstr3("add", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
-	//on utilise adresse j car on veut écrire par dessus
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
+	//on utilise adresse j car on veut écrire par dessus et elle est en haut de ts
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 	
 	}
-#line 1409 "y.tab.c" /* yacc.c:1646  */
+#line 1439 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 93 "compiler.y" /* yacc.c:1646  */
+#line 161 "compiler.y" /* yacc.c:1646  */
     { 
 
 	printf("tMULT\n"); 
 
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
-	
-	
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
+		
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1435,33 +1464,31 @@ descendre();
 	printf("MUL r0 r0 r1");	
 	ajouterInstr3("mul", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 
 	}
-#line 1445 "y.tab.c" /* yacc.c:1646  */
+#line 1474 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 125 "compiler.y" /* yacc.c:1646  */
+#line 200 "compiler.y" /* yacc.c:1646  */
     { 
-
 	printf("tMOINS\n"); 
 
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
-	
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);	
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1471,33 +1498,31 @@ descendre();
 	printf("SOU r0 r0 r1");	
 	ajouterInstr3("sou", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 
 	}
-#line 1481 "y.tab.c" /* yacc.c:1646  */
+#line 1508 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 157 "compiler.y" /* yacc.c:1646  */
+#line 238 "compiler.y" /* yacc.c:1646  */
     { 
-
 	printf("tDIV\n"); 
 
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
-	
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1507,22 +1532,22 @@ descendre();
 	printf("DIV r0 r0 r1");	
 	ajouterInstr3("div", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 
 	}
-#line 1517 "y.tab.c" /* yacc.c:1646  */
+#line 1542 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 191 "compiler.y" /* yacc.c:1646  */
+#line 277 "compiler.y" /* yacc.c:1646  */
     {
 	printf(">int> %d\n",(yyvsp[0].e));
-	int ind = ajouterLigneTmp();
-	int adresse = getAdresse(ind);
-	int tmp = ajouterLigneTmp();
+	int ind = ajouterLigneTmpTS();
+	int adresse = getAdresseTS(ind);
+	//int tmp = ajouterLigneTmpTS();
 	
 	//ici on va générer les instructions MOV r0 $1 ,STORE adr r0
 	
@@ -1530,58 +1555,63 @@ descendre();
 	printf("AFC r0 %d\n", (yyvsp[0].e));
 	ajouterInstr2("afc", 0, (yyvsp[0].e));
 
-
-	printf("STORE %d r0\n", getAdresse(tmp));
-	ajouterInstr2("store", tmp, 0);
+	//printf("STORE %d r0\n", getAdresseTS(tmp));
+	ajouterInstr2("store", adresse, 0);
 
 	}
-#line 1539 "y.tab.c" /* yacc.c:1646  */
+#line 1563 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 209 "compiler.y" /* yacc.c:1646  */
+#line 299 "compiler.y" /* yacc.c:1646  */
     {
 	printf(">id> %s\n", (yyvsp[0].e2));
-	int ind = getIndex((yyvsp[0].e2));
-	int adresse = getAdresse(ind);
-	int tmp = ajouterLigneTmp();
+	int ind = getIndexTS((yyvsp[0].e2));
+	int adresse = getAdresseTS(ind);
+	int tmp = ajouterLigneTmpTS();
 
 	printf("LOAD r0 %d\n", adresse);
 	ajouterInstr2("load", 0, adresse);
-	
-	printf("STORE %d, r0\n", getAdresse(tmp));
-	ajouterInstr2("store", tmp, 0);
 
+	int adresseTMP=getAdresseTS(tmp);
+	
+	printf("STORE %d, r0\n", adresseTMP);
+	ajouterInstr2("store", adresseTMP, 0);
+
+	//utile?
 	(yyval.e) = tmp;
 	}
-#line 1558 "y.tab.c" /* yacc.c:1646  */
+#line 1585 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 226 "compiler.y" /* yacc.c:1646  */
+#line 326 "compiler.y" /* yacc.c:1646  */
     {
+	//<e> utile pour spécifier le type
 	(yyvsp[0].e)=getMemInstruction();
 }
-#line 1566 "y.tab.c" /* yacc.c:1646  */
+#line 1594 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 230 "compiler.y" /* yacc.c:1646  */
+#line 331 "compiler.y" /* yacc.c:1646  */
     {
 	//si la condition n'est pas bonne on saute direct à la fin
-	int derniereAdresse = getAdresse(getIndexCourant());
+	int derniereAdresse = getAdresseTS(getIndexDerniereEntreeTS());
+
+	//on récupère la dernière condition stockée
 	ajouterInstr2("load", 1, derniereAdresse);
-	pop();
-	//-1 sera à remplacer par l'adr
+	popTS();
+	//-1 sera à remplacer par l'adr, on saute si r1=0, soit si cond fausse
 	ajouterInstr2("jmpc", -1, 1); 
-	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
+	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tWHILE 
 	(yyvsp[-4].e) = getMemInstruction()-1;
 }
-#line 1581 "y.tab.c" /* yacc.c:1646  */
+#line 1611 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 241 "compiler.y" /* yacc.c:1646  */
+#line 344 "compiler.y" /* yacc.c:1646  */
     {
 	//on ajoute un jump dans tous les cas avant le jmpc
 	ajouterInstr1("jmp", (yyvsp[-5].e));
@@ -1590,52 +1620,39 @@ descendre();
 	// qui a sans doute été changé dans le Body de la règle et avec l'inst jmp juste avant
 	getInstrAtIdx((yyvsp[-6].e)).arg[0]=getMemInstruction();
 }
-#line 1594 "y.tab.c" /* yacc.c:1646  */
+#line 1624 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 255 "compiler.y" /* yacc.c:1646  */
+#line 355 "compiler.y" /* yacc.c:1646  */
     {
-	int derniereAdresse = getAdresse(getIndexCourant());
+	int derniereAdresse = getAdresseTS(getIndexDerniereEntreeTS());
 	ajouterInstr2("load", 1, derniereAdresse);
 
-	pop();
+	popTS();
 
 	ajouterInstr2("jmpc", -1, 1); 
 	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
-	(yyvsp[-3].e) = getMemInstruction()-1;
+	(yyval.e) = getMemInstruction()-1;
 }
-#line 1609 "y.tab.c" /* yacc.c:1646  */
+#line 1639 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 266 "compiler.y" /* yacc.c:1646  */
+#line 378 "compiler.y" /* yacc.c:1646  */
     {
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
-	getInstrAtIdx((yyvsp[-5].e)).arg[0]=getMemInstruction();
+	printf("Reecriture de l'instruction à l'index %d on met %d\n", (yyvsp[-1].e), getMemInstruction());
+	printInstr(getInstrAtIdx((yyvsp[-1].e)));
+	modifierInstrAtIdx((yyvsp[-1].e), 0, getMemInstruction());
+	printInstr(getInstrAtIdx((yyvsp[-1].e)));
 }
-#line 1619 "y.tab.c" /* yacc.c:1646  */
+#line 1652 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 276 "compiler.y" /* yacc.c:1646  */
-    {
-	int derniereAdresse = getAdresse(getIndexCourant());
-
-	ajouterInstr2("load", 1, derniereAdresse);
-	
-	pop();
-
-	ajouterInstr2("jmpc", -1, 1); 
-	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
-	(yyvsp[-3].e) = getMemInstruction()-1;
-}
-#line 1635 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 42:
-#line 288 "compiler.y" /* yacc.c:1646  */
+#line 401 "compiler.y" /* yacc.c:1646  */
     {
 	
 
@@ -1647,53 +1664,53 @@ descendre();
 
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
-	getInstrAtIdx((yyvsp[-5].e)).arg[0]=getMemInstruction();
+	getInstrAtIdx((yyvsp[-1].e)).arg[0]=getMemInstruction();
 }
-#line 1653 "y.tab.c" /* yacc.c:1646  */
+#line 1670 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 43:
-#line 302 "compiler.y" /* yacc.c:1646  */
+  case 42:
+#line 415 "compiler.y" /* yacc.c:1646  */
     {
 	getInstrAtIdx((yyvsp[-6].e)).arg[0]=getMemInstruction();
 }
-#line 1661 "y.tab.c" /* yacc.c:1646  */
+#line 1678 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 47:
-#line 312 "compiler.y" /* yacc.c:1646  */
+  case 45:
+#line 425 "compiler.y" /* yacc.c:1646  */
     {
 	descendre();
 }
-#line 1669 "y.tab.c" /* yacc.c:1646  */
+#line 1686 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 48:
-#line 316 "compiler.y" /* yacc.c:1646  */
+  case 46:
+#line 429 "compiler.y" /* yacc.c:1646  */
     {
 	monter();
 }
-#line 1677 "y.tab.c" /* yacc.c:1646  */
+#line 1694 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 51:
-#line 321 "compiler.y" /* yacc.c:1646  */
+  case 49:
+#line 442 "compiler.y" /* yacc.c:1646  */
     {
 	
 	printf("Cond Supe\n"); 
 
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1703,31 +1720,32 @@ descendre();
 	printf("SUPE r0 r0 r1");	
 	ajouterInstr3("supe", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1712 "y.tab.c" /* yacc.c:1646  */
+#line 1729 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 53:
-#line 352 "compiler.y" /* yacc.c:1646  */
+  case 50:
+#line 480 "compiler.y" /* yacc.c:1646  */
     {
-	printf("Cond\n"); 
+	
+	printf("Cond Supe\n"); 
 
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1737,32 +1755,66 @@ descendre();
 	printf("INFE r0 r0 r1");	
 	ajouterInstr3("infe", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1746 "y.tab.c" /* yacc.c:1646  */
+#line 1764 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 54:
-#line 382 "compiler.y" /* yacc.c:1646  */
+  case 51:
+#line 518 "compiler.y" /* yacc.c:1646  */
     {
-	
-	printf("Cond INF\n"); 
+	printf("Cond\n"); 
 
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r1 %d", adresse_j);
+	ajouterInstr2("load", 1, adresse_j);
+
+	//on ajoute l'instruction INFE r0 r0 r1
+	printf("INFE r0 r0 r1");	
+	ajouterInstr3("infe", 0, 0, 1);
+
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
+	//on utilise adresse j car on veut écrire par dessus
+	printf("STORE %d r0", adresse_j);	
+	ajouterInstr2("store", adresse_j, 0);
+}
+#line 1798 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 52:
+#line 555 "compiler.y" /* yacc.c:1646  */
+    {
+	
+	printf("Cond INF\n"); 
+
+	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
+	
+	//on rajoute l'instruction dans la table d'instruction
+	printf("LOAD r0 %d", adresse_i);
+	ajouterInstr2("load", 0, adresse_i);
+
+	popTS();
+	
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1772,32 +1824,32 @@ descendre();
 	printf("INF r0 r0 r1");	
 	ajouterInstr3("inf", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1781 "y.tab.c" /* yacc.c:1646  */
+#line 1833 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 55:
-#line 413 "compiler.y" /* yacc.c:1646  */
+  case 53:
+#line 595 "compiler.y" /* yacc.c:1646  */
     {
 	
 	printf("Cond DIFF\n"); 
 
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1821,31 +1873,32 @@ descendre();
 	//(le move fr)
 
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	printf("STORE %d r0", adresse_j);
+	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1830 "y.tab.c" /* yacc.c:1646  */
+#line 1883 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 56:
-#line 458 "compiler.y" /* yacc.c:1646  */
+  case 54:
+#line 648 "compiler.y" /* yacc.c:1646  */
     {	
 	printf("Cond EGAL\n"); 
 
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
-	int i = getIndexCourant();
-	int adresse_i = getAdresse(i);
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	pop();
+	popTS();
 	
-	int j = getIndexCourant();
-	int adresse_j = getAdresse(j);
+	int j = getIndexDerniereEntreeTS();
+	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
 	printf("LOAD r1 %d", adresse_j);
@@ -1855,16 +1908,16 @@ descendre();
 	printf("EQU r0 r0 r1");	
 	ajouterInstr3("equ", 0, 0, 1);
 
-	//on ajoute l'instruction : STORE getIndexCourant() r0
+	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1864 "y.tab.c" /* yacc.c:1646  */
+#line 1917 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1868 "y.tab.c" /* yacc.c:1646  */
+#line 1921 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2092,12 +2145,14 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 496 "compiler.y" /* yacc.c:1906  */
+#line 686 "compiler.y" /* yacc.c:1906  */
 
 
 int main(void) {
-#ifdef YYDEBUG
+/*#ifdef YYDEBUG
 	yydebug = 1;
-#endif
+#endif*/
 	yyparse();
+	printT_Instr();
+	
 }

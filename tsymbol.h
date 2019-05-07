@@ -2,7 +2,7 @@
 
 typedef struct ligne ligne;
 struct ligne {
-  int *type;
+  char *type;
   char *id;
   int valeurConstante;
   int profondeur;
@@ -16,6 +16,7 @@ void popTS();
 void imprimerLigne(ligne l);
 void imprimerTS();
 int getIndexCourantTS();
+int getIndexDerniereEntreeTS();
 void monter();
 void descendre();
 

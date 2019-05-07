@@ -7,4 +7,4 @@ lex.yy.c: compiloC.l
 y.tab.c: compiler.y
 	yacc -d -v -t compiler.y
 test:compiler
-	./compiler < test
+	./compiler < progamme.c
