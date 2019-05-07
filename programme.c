@@ -1,11 +1,10 @@
 void main(){
   int b;
   int a;
-  b = 9;
+  b = 0;
   a = 10;
-  if(b==9){
+  while(b<10){
     b=2+2;
-    b=4;
-    b=6;
+    b=b+1;
   }
 }
