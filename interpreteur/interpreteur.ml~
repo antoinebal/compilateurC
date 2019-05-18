@@ -1,0 +1,42 @@
+let from_file path =
+
+  let infile = open_in path in
+
+  (* Read all lines until end of file. *)
+  let rec loop instructions =
+    try
+      let line = input_line infile in
+      let instructions2 =
+        (* Ignore empty lines *)
+        if line = "" then instructions
+
+        (* The first character of a line determines its content : v or e.
+         * Lines not starting with v or e are ignored. *)
+        else 
+          let instruction = String.split_on_char ' ' line in
+            instructions@[instruction]
+      in                 
+        loop instructions2        
+    with End_of_file -> instructions
+  in
+
+  let final_instructions = loop [] in
+
+    close_in infile ;
+    final_instructions;;
+
+
+
+
+let instructions = from_file "assembleur.s";;
+
+let printInstr instr = 
+  match instr with
+    |[] -> Printf.printf "%empty";
+    |[x] -> Printf.printf "%s" x;
+    |[x ; y] -> Printf.printf "%s %s %s" x y;
+    |[x ; y ; z] -> Printf.printf "%s %s %s" x y z;
+;;
+
+
+List.iter printInstr instructions;
