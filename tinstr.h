@@ -15,4 +15,6 @@ int getMemInstruction();
 instruction getInstrAtIdx(int index);
 void printInstr(instruction instr);
 void printT_Instr();
+void ecritInstr(instruction instr, FILE *file);
+void ecritT_Instr();
 void modifierInstrAtIdx(int index, int numeroArg, int newValue);

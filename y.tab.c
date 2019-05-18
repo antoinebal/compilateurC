@@ -1618,7 +1618,7 @@ descendre();
 
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle et avec l'inst jmp juste avant
-	getInstrAtIdx((yyvsp[-6].e)).arg[0]=getMemInstruction();
+	modifierInstrAtIdx((yyvsp[-6].e), 0, getMemInstruction());
 }
 #line 1624 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1664,7 +1664,7 @@ descendre();
 
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
-	getInstrAtIdx((yyvsp[-1].e)).arg[0]=getMemInstruction();
+	modifierInstrAtIdx((yyvsp[-1].e), 0, getMemInstruction());
 }
 #line 1670 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1672,7 +1672,7 @@ descendre();
   case 42:
 #line 415 "compiler.y" /* yacc.c:1646  */
     {
-	getInstrAtIdx((yyvsp[-6].e)).arg[0]=getMemInstruction();
+	modifierInstrAtIdx((yyvsp[-6].e), 0, getMemInstruction());
 }
 #line 1678 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -2154,5 +2154,6 @@ int main(void) {
 #endif*/
 	yyparse();
 	printT_Instr();
+	ecritT_Instr();
 	
 }

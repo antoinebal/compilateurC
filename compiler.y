@@ -691,5 +691,6 @@ int main(void) {
 #endif*/
 	yyparse();
 	printT_Instr();
+	ecritT_Instr();
 	
 }
