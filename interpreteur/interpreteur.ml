@@ -26,7 +26,9 @@ let from_file path =
     final_instructions;;
 
 
-exception Mauvais_registre
+exception Mauvais_registre of string
+exception Instruction_inconnue
+	    
 (* retourne le numéro de registre d'un registre *)
 let numRegistre registre =
   match registre with
@@ -46,13 +48,13 @@ let numRegistre registre =
   |"r13" -> 13
   |"r14" -> 14
   |"r15" -> 15
-  |"r15" -> 16
-  | _ -> raise Mauvais_registre
+  |"r16" -> 16
+  | r -> raise (Mauvais_registre r)
 ;;
 
 
 let interpreteur nomFichier =
-  let instructions = from_file nom_fichier in
+  let instructions = from_file nomFichier in
 
   (* pc : instruction pointer (int)
      registres : int array
@@ -62,44 +64,141 @@ let interpreteur nomFichier =
   let rec interp pc registres memoire =
     (* on examine l'instructions pointée par pc 
     attention à ne faire que quand pc encore dans instructions sinon stop*)
-    let instruction = (List.nth instructions pc
-    match List.hd instruction with
-    |"add" ->
-      let numRa = numRegistre List.nth instruction 1 in
-      let numRb = numRegistre List.nth instruction 2 in
-      let numRc = numRegistre List.nth instruction 3 in
+    Printf.printf "Appel avec pc %d \n" pc;
+    if pc >= (List.length instructions)
+    then (registres , memoire)
+    else 
+      let instruction = (List.nth instructions pc) in
+      match List.hd instruction with
+      |"add" ->
+	(* add Ra Rb Rc *)
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	registres.(numRa) <- (registres.(numRb) + registres.(numRc));
+	interp (pc+1) registres memoire
       (* ICI : mettre dans les bonnes cases du tableau *)
-    |"mul" ->
-    |"sou" ->
-    |"div" ->
-    |"cop" ->
-    |"afc" ->
-    |"load" ->
-    |"store" ->
-    |"equ" ->
-    |"inf" ->
-    |"infe" ->
-    |"sup" ->
-    |"supe" ->
-    |"jmp" ->
-    |"jmpc" ->
-    | _ -> 
-
+      |"mul" ->
+	(* mul Ra Rb Rc *)
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	registres.(numRa) <- (registres.(numRb) * registres.(numRc));
+	interp (pc+1) registres memoire
+      |"sou" ->
+	(* sou Ra Rb Rc *)
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	registres.(numRa) <- (registres.(numRb) - registres.(numRc));
+	interp (pc+1) registres memoire
+      |"div" ->
+	(* div Ra Rb Rc *)
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	registres.(numRa) <- (registres.(numRb) / registres.(numRc));
+	interp (pc+1) registres memoire
+      |"cop" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	registres.(numRa) <- registres.(numRb);
+	interp (pc+1) registres memoire
+      |"afc" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let j = int_of_string (List.nth instruction 2) in
+	registres.(numRa) <- j;
+	interp (pc+1) registres memoire
+      |"load" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let adrJ = int_of_string (List.nth instruction 2) in
+	registres.(numRa) <- memoire.(adrJ);
+	interp (pc+1) registres memoire
+      |"store" ->
+	let adrI = int_of_string (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	memoire.(adrI) <- registres.(numRb);
+	interp (pc+1) registres memoire
+      |"equ" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	let cond = registres.(numRb) = registres.(numRc) in
+	(match cond with
+	|true ->
+	  registres.(numRa) <- 1;
+	  interp (pc+1) registres memoire
+	|false ->
+	  registres.(numRa) <- 0;
+	  interp (pc+1) registres memoire)
+      |"inf" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	let cond = registres.(numRb) < registres.(numRc) in
+	(match cond with
+	|true ->
+	  registres.(numRa) <- 1;
+	  interp (pc+1) registres memoire
+	|false ->
+	  registres.(numRa) <- 0;
+	  interp (pc+1) registres memoire)
+      |"infe" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	let cond = registres.(numRb) <= registres.(numRc) in
+	(match cond with
+	|true ->
+	  registres.(numRa) <- 1;
+	  interp (pc+1) registres memoire
+	|false ->
+	  registres.(numRa) <- 0;
+	  interp (pc+1) registres memoire)
+      |"sup" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	let cond = registres.(numRb) > registres.(numRc) in
+	(match cond with
+	|true ->
+	  registres.(numRa) <- 1;
+	  interp (pc+1) registres memoire
+	|false ->
+	  registres.(numRa) <- 0;
+	  interp (pc+1) registres memoire)
+      |"supe" ->
+	let numRa = numRegistre (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	let numRc = numRegistre (List.nth instruction 3) in
+	let cond = registres.(numRb) >= registres.(numRc) in
+	(match cond with
+	|true ->
+	  registres.(numRa) <- 1;
+	  interp (pc+1) registres memoire
+	|false ->
+	  registres.(numRa) <- 0;
+	  interp (pc+1) registres memoire)
+      |"jmp" ->
+	let adrI = numRegistre (List.nth instruction 1) in
+	(* on met pc à adrI *)
+	interp adrI registres memoire
+      |"jmpc" ->
+	let adrI = int_of_string (List.nth instruction 1) in
+	let numRb = numRegistre (List.nth instruction 2) in
+	if registres.(numRb) = 0
+	then interp adrI registres memoire (* on saute *)
+	else interp (pc+1) registres memoire (* on ne saute pas *)
+      | _ -> raise Instruction_inconnue
+	 
   in
-
+  
   (* on initialise les registres et la mémoire *)
   let reg = Array.make 16 0 in
-  let mem = Array.make 256 0 in
-
+  let mem = Array.make 500 0 in
+  
   interp 0 reg mem;;
-
-
-
-
-
-
-
-
+  
 
 
 
@@ -117,3 +216,12 @@ let printInstr instr =
 
 
 List.iter printInstr instructions;
+
+
+match interpreteur "assembleur.s" with
+|(registres , memoire) ->
+  Printf.printf("*****REGISTRES*****");
+  Array.iter (Printf.printf "%d") registres;
+  Printf.printf("******MEMOIRE******");
+  Array.iter (Printf.printf "%d") memoire;
+  
