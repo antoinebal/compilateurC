@@ -65,7 +65,7 @@ Declarations :  | Declaration Declarations ;
 nous n'autorisons pas les déclarations 2en1 (décla et affectation)
 du type : int a = 1;
 */
-Declaration : tINT tID tPV 
+Declaration : tINT tID tPV
 	{
 	//on ajoute une ligne dans ts pour cette variable qu'on vient de déclarer
 	printf("%s", $2);

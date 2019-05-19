@@ -6,7 +6,7 @@ ligne ts[1024];
 
 int idx=0;
 
-int adresseMemCourante= 400;
+int adresseMemCourante= 0;
 
 int profondeur=0;
 

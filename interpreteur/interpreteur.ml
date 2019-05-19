@@ -14,16 +14,16 @@ let from_file path =
          * Lines not starting with v or e are ignored. *)
         else 
           let instruction = String.split_on_char ' ' line in
-            instructions@[instruction]
+          instructions@[instruction]
       in                 
-        loop instructions2        
+      loop instructions2        
     with End_of_file -> instructions
   in
 
   let final_instructions = loop [] in
 
-    close_in infile ;
-    final_instructions;;
+  close_in infile ;
+  final_instructions;;
 
 
 exception Mauvais_registre of string
@@ -60,11 +60,10 @@ let interpreteur nomFichier =
      registres : int array
      memoire : int array 
      retourne un tuple (registres ; memoire)
-  *)
+   *)
   let rec interp pc registres memoire =
     (* on examine l'instructions pointée par pc 
     attention à ne faire que quand pc encore dans instructions sinon stop*)
-    Printf.printf "Appel avec pc %d \n" pc;
     if pc >= (List.length instructions)
     then (registres , memoire)
     else 
@@ -125,62 +124,62 @@ let interpreteur nomFichier =
 	let numRc = numRegistre (List.nth instruction 3) in
 	let cond = registres.(numRb) = registres.(numRc) in
 	(match cond with
-	|true ->
-	  registres.(numRa) <- 1;
-	  interp (pc+1) registres memoire
-	|false ->
-	  registres.(numRa) <- 0;
-	  interp (pc+1) registres memoire)
+	 |true ->
+	   registres.(numRa) <- 1;
+	   interp (pc+1) registres memoire
+	 |false ->
+	   registres.(numRa) <- 0;
+	   interp (pc+1) registres memoire)
       |"inf" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
 	let numRc = numRegistre (List.nth instruction 3) in
 	let cond = registres.(numRb) < registres.(numRc) in
 	(match cond with
-	|true ->
-	  registres.(numRa) <- 1;
-	  interp (pc+1) registres memoire
-	|false ->
-	  registres.(numRa) <- 0;
-	  interp (pc+1) registres memoire)
+	 |true ->
+	   registres.(numRa) <- 1;
+	   interp (pc+1) registres memoire
+	 |false ->
+	   registres.(numRa) <- 0;
+	   interp (pc+1) registres memoire)
       |"infe" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
 	let numRc = numRegistre (List.nth instruction 3) in
 	let cond = registres.(numRb) <= registres.(numRc) in
 	(match cond with
-	|true ->
-	  registres.(numRa) <- 1;
-	  interp (pc+1) registres memoire
-	|false ->
-	  registres.(numRa) <- 0;
-	  interp (pc+1) registres memoire)
+	 |true ->
+	   registres.(numRa) <- 1;
+	   interp (pc+1) registres memoire
+	 |false ->
+	   registres.(numRa) <- 0;
+	   interp (pc+1) registres memoire)
       |"sup" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
 	let numRc = numRegistre (List.nth instruction 3) in
 	let cond = registres.(numRb) > registres.(numRc) in
 	(match cond with
-	|true ->
-	  registres.(numRa) <- 1;
-	  interp (pc+1) registres memoire
-	|false ->
-	  registres.(numRa) <- 0;
-	  interp (pc+1) registres memoire)
+	 |true ->
+	   registres.(numRa) <- 1;
+	   interp (pc+1) registres memoire
+	 |false ->
+	   registres.(numRa) <- 0;
+	   interp (pc+1) registres memoire)
       |"supe" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
 	let numRc = numRegistre (List.nth instruction 3) in
 	let cond = registres.(numRb) >= registres.(numRc) in
 	(match cond with
-	|true ->
-	  registres.(numRa) <- 1;
-	  interp (pc+1) registres memoire
-	|false ->
-	  registres.(numRa) <- 0;
-	  interp (pc+1) registres memoire)
+	 |true ->
+	   registres.(numRa) <- 1;
+	   interp (pc+1) registres memoire
+	 |false ->
+	   registres.(numRa) <- 0;
+	   interp (pc+1) registres memoire)
       |"jmp" ->
-	let adrI = numRegistre (List.nth instruction 1) in
+	let adrI = int_of_string (List.nth instruction 1) in
 	(* on met pc à adrI *)
 	interp adrI registres memoire
       |"jmpc" ->
@@ -190,7 +189,7 @@ let interpreteur nomFichier =
 	then interp adrI registres memoire (* on saute *)
 	else interp (pc+1) registres memoire (* on ne saute pas *)
       | _ -> raise Instruction_inconnue
-	 
+		   
   in
   
   (* on initialise les registres et la mémoire *)
@@ -204,24 +203,67 @@ let interpreteur nomFichier =
 
 let instructions = from_file "assembleur.s";;
 
-let printInstr instr = 
-  match instr with
-    |[] -> Printf.printf "empty \n"
+
+  
+
+let printInstructions instructions =
+  let printInstruction instruction = 
+    match instruction with
+    |[] -> Printf.printf "\n"
     |[x] -> Printf.printf "%s \n" x
     |[x ; y] -> Printf.printf "%s %s \n" x y
     |[x ; y ; z] -> Printf.printf "%s %s %s \n" x y z
     |[x ; y ; z ; a] -> Printf.printf "%s %s %s %s \n" x y z a
-    | _ -> Printf.printf "wut \n"
+    | _ -> raise Instruction_inconnue
+  in
+
+  let rec piIn insts = 
+    match insts with
+    |[] -> Printf.printf "\n"
+    |instruction::reste -> printInstruction instruction;
+			   piIn reste
+  in
+  Printf.printf "****INSTRUCTIONS****\n";
+  piIn instructions
 ;;
 
-
-List.iter printInstr instructions;
-
-
-match interpreteur "assembleur.s" with
-|(registres , memoire) ->
-  Printf.printf("*****REGISTRES*****");
-  Array.iter (Printf.printf "%d") registres;
-  Printf.printf("******MEMOIRE******");
-  Array.iter (Printf.printf "%d") memoire;
   
+  
+  
+let printRegistres registres =
+  let taille = Array.length registres in
+  let rec prIn i =
+    let cond = i >= taille in
+    match cond with
+    |true ->
+      Printf.printf "\n"
+    |false ->
+      Printf.printf "r%d = %d\n" i registres.(i);
+      prIn (i+1)
+  in
+  Printf.printf "*****REGISTRES*****\n";
+  prIn 0;;
+  
+let printMemoire memoire =
+  let taille = Array.length memoire in
+  let rec pmIn i =
+    let cond = i >= taille in
+    match cond with
+    |true ->
+      Printf.printf "\n"
+    |false ->
+      Printf.printf "@%d = %d\n" i memoire.(i);
+      pmIn (i+1)
+  in
+  (Printf.printf "******MEMOIRE******\n");
+  pmIn 0;; 
+  
+  
+  
+  
+  printInstructions (from_file "assembleur.s");
+  match interpreteur "assembleur.s" with
+  |(registres , memoire) ->
+    printRegistres registres;
+    printMemoire memoire;
+    
