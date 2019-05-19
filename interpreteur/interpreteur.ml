@@ -59,7 +59,7 @@ let interpreteur nomFichier =
   (* pc : instruction pointer (int)
      registres : int array
      memoire : int array 
-     retourne un tuple (registres ; memoire)
+     retourne un tuple (registres , memoire)
    *)
   let rec interp pc registres memoire =
     (* on examine l'instructions pointée par pc 
@@ -98,26 +98,31 @@ let interpreteur nomFichier =
 	let numRc = numRegistre (List.nth instruction 3) in
 	registres.(numRa) <- (registres.(numRb) / registres.(numRc));
 	interp (pc+1) registres memoire
+      (* cop Ra Rb *)
       |"cop" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
 	registres.(numRa) <- registres.(numRb);
 	interp (pc+1) registres memoire
+      (* afc Ra j *)
       |"afc" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let j = int_of_string (List.nth instruction 2) in
 	registres.(numRa) <- j;
 	interp (pc+1) registres memoire
+      (* load Ra @j *)
       |"load" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let adrJ = int_of_string (List.nth instruction 2) in
 	registres.(numRa) <- memoire.(adrJ);
 	interp (pc+1) registres memoire
+      (* store @i Rb *)
       |"store" ->
 	let adrI = int_of_string (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
 	memoire.(adrI) <- registres.(numRb);
 	interp (pc+1) registres memoire
+      (* equ Ra Rb Rc *)
       |"equ" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
@@ -130,6 +135,7 @@ let interpreteur nomFichier =
 	 |false ->
 	   registres.(numRa) <- 0;
 	   interp (pc+1) registres memoire)
+      (* inf Ra Rb Rc *)
       |"inf" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
@@ -142,6 +148,7 @@ let interpreteur nomFichier =
 	 |false ->
 	   registres.(numRa) <- 0;
 	   interp (pc+1) registres memoire)
+      (* infe Ra Rb Rc *)
       |"infe" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
@@ -154,6 +161,7 @@ let interpreteur nomFichier =
 	 |false ->
 	   registres.(numRa) <- 0;
 	   interp (pc+1) registres memoire)
+      (* sup Ra Rb Rc *)
       |"sup" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
@@ -166,6 +174,7 @@ let interpreteur nomFichier =
 	 |false ->
 	   registres.(numRa) <- 0;
 	   interp (pc+1) registres memoire)
+      (* supe Ra Rb Rc *)
       |"supe" ->
 	let numRa = numRegistre (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
@@ -178,10 +187,12 @@ let interpreteur nomFichier =
 	 |false ->
 	   registres.(numRa) <- 0;
 	   interp (pc+1) registres memoire)
+      (* jmp @i *)
       |"jmp" ->
 	let adrI = int_of_string (List.nth instruction 1) in
 	(* on met pc à adrI *)
 	interp adrI registres memoire
+      (* jmpc @i Rb *)
       |"jmpc" ->
 	let adrI = int_of_string (List.nth instruction 1) in
 	let numRb = numRegistre (List.nth instruction 2) in
@@ -207,24 +218,24 @@ let instructions = from_file "assembleur.s";;
   
 
 let printInstructions instructions =
-  let printInstruction instruction = 
+  let printInstruction instruction no = 
     match instruction with
     |[] -> Printf.printf "\n"
-    |[x] -> Printf.printf "%s \n" x
-    |[x ; y] -> Printf.printf "%s %s \n" x y
-    |[x ; y ; z] -> Printf.printf "%s %s %s \n" x y z
-    |[x ; y ; z ; a] -> Printf.printf "%s %s %s %s \n" x y z a
+    |[x] -> Printf.printf "@%d :  %s \n" no x
+    |[x ; y] -> Printf.printf "@%d :  %s %s \n" no x y
+    |[x ; y ; z] -> Printf.printf "@%d :  %s %s %s \n" no x y z
+    |[x ; y ; z ; a] -> Printf.printf "@%d :  %s %s %s %s \n" no x y z a
     | _ -> raise Instruction_inconnue
   in
 
-  let rec piIn insts = 
+  let rec piIn insts no = 
     match insts with
     |[] -> Printf.printf "\n"
-    |instruction::reste -> printInstruction instruction;
-			   piIn reste
+    |instruction::reste -> printInstruction instruction no;
+			   piIn reste (no+1)
   in
   Printf.printf "****INSTRUCTIONS****\n";
-  piIn instructions
+  piIn instructions 0
 ;;
 
   
@@ -252,7 +263,7 @@ let printMemoire memoire =
     |true ->
       Printf.printf "\n"
     |false ->
-      Printf.printf "@%d = %d\n" i memoire.(i);
+      Printf.printf "@%d : %d\n" i memoire.(i);
       pmIn (i+1)
   in
   (Printf.printf "******MEMOIRE******\n");
