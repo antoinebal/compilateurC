@@ -205,7 +205,7 @@ let interpreteur nomFichier =
   
   (* on initialise les registres et la mémoire *)
   let reg = Array.make 16 0 in
-  let mem = Array.make 500 0 in
+  let mem = Array.make 256 0 in
   
   interp 0 reg mem;;
   
