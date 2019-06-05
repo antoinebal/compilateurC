@@ -37,15 +37,6 @@ void ajouterLigneTS(char* type, char* id, int valConst) {
 	idx++;
 
 	adresseMemCourante++;
-
-	//il faut incrémenter l'adresse mémoire en fonction du type
-  /*if (*type == "char") {
-		//un char pèse 1 octet
-		adresseMemCourante++;
-	} else if (*type == "int") {
-		//un int pèse 2 octets
-		adresseMemCourante+=2;
-	}*/
 }
 
 //peut être rajouter type + tard en argument
@@ -108,15 +99,7 @@ void imprimerTS() {
 
 /*
 void main() {
-	ajouterLigne("int", "tchazos", 1);
 	
-	ajouterLigne("int", "tchazos", 1);
-	ajouterLigne("int", "tchazos", 1);
-	ajouterLigne("int", "tchazos", 1);
-	ajouterLigneTmp();
-	imprimerTS();
-
 	
-
 }
 */

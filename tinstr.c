@@ -36,11 +36,7 @@ void ajouterInstr3(char* instr, int arg1, int arg2, int arg3) {
 }
 
 
-//retourne l'idx2 courant dans la table
-/*
-attention pour les jmp je les utilise comme adresse
-il faudra faire attention à comment gérer cela
-*/
+
 int getMemInstruction() {
 	return idx2;
 }
@@ -182,3 +178,9 @@ void ecritT_Instr() {
 }
 
 
+/*
+void main() {
+	
+
+}
+*/

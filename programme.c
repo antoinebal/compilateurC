@@ -1,4 +1,4 @@
-void main(){
+void main(int arg){
 	int b;
 	b = 10;
 	if(b==9){
