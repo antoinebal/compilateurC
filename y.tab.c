@@ -496,12 +496,12 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint16 yyrline[] =
 {
        0,    34,    34,    35,    35,    37,    36,    43,    43,    47,
-      48,    48,    50,    60,    60,    63,    63,    68,    76,    76,
-      77,    77,    77,    77,    77,    80,   115,   116,   152,   191,
-     229,   267,   267,   268,   271,   293,   326,   331,   318,   355,
-     369,   401,   390,   420,   420,   425,   424,   433,   433,   434,
-     472,   510,   547,   585,   640,   677,   679,   681,   681,   681,
-     683
+      48,    48,    50,    59,    59,    62,    62,    69,    78,    78,
+      79,    79,    79,    79,    79,    82,   114,   115,   150,   187,
+     224,   261,   261,   262,   265,   282,   314,   319,   306,   343,
+     357,   388,   377,   406,   406,   411,   410,   419,   419,   420,
+     455,   490,   525,   560,   612,   647,   649,   651,   651,   651,
+     653
 };
 #endif
 
@@ -1363,7 +1363,7 @@ descendre();
     break;
 
   case 17:
-#line 69 "compiler.y" /* yacc.c:1646  */
+#line 70 "compiler.y" /* yacc.c:1646  */
     {
 	//on ajoute une ligne dans ts pour cette variable qu'on vient de déclarer
 	printf("%s", (yyvsp[-1].e2));
@@ -1374,10 +1374,8 @@ descendre();
     break;
 
   case 25:
-#line 87 "compiler.y" /* yacc.c:1646  */
+#line 89 "compiler.y" /* yacc.c:1646  */
     {
-	printf("\nAffectation\n");
-
 	//on récup la dernière valeur dans ts
 	imprimerTS();
 	int i = getIndexDerniereEntreeTS();
@@ -1386,7 +1384,6 @@ descendre();
 	popTS();
 
 	//on récup l'adresse de tID
-	printf("\n Dans affect, valeur de ID : %s \n", (yyvsp[-3].e2));
 	int idx_tID = getIndexTS((yyvsp[-3].e2));
 	int adresse_tID = getAdresseTS(idx_tID);
 
@@ -1402,13 +1399,12 @@ descendre();
 	printf("STORE %d r0\n", adresse_tID);
 	ajouterInstr2("store", adresse_tID, 0);
 }
-#line 1406 "y.tab.c" /* yacc.c:1646  */
+#line 1403 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 124 "compiler.y" /* yacc.c:1646  */
+#line 123 "compiler.y" /* yacc.c:1646  */
     { 
-	printf("tPLUS\n");
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 		
@@ -1435,14 +1431,12 @@ descendre();
 	ajouterInstr2("store", adresse_j, 0);
 	
 	}
-#line 1439 "y.tab.c" /* yacc.c:1646  */
+#line 1435 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 161 "compiler.y" /* yacc.c:1646  */
+#line 159 "compiler.y" /* yacc.c:1646  */
     { 
-
-	printf("tMULT\n"); 
 
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1470,13 +1464,12 @@ descendre();
 	ajouterInstr2("store", adresse_j, 0);
 
 	}
-#line 1474 "y.tab.c" /* yacc.c:1646  */
+#line 1468 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 200 "compiler.y" /* yacc.c:1646  */
+#line 196 "compiler.y" /* yacc.c:1646  */
     { 
-	printf("tMOINS\n"); 
 
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);	
@@ -1504,13 +1497,12 @@ descendre();
 	ajouterInstr2("store", adresse_j, 0);
 
 	}
-#line 1508 "y.tab.c" /* yacc.c:1646  */
+#line 1501 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 238 "compiler.y" /* yacc.c:1646  */
+#line 233 "compiler.y" /* yacc.c:1646  */
     { 
-	printf("tDIV\n"); 
 
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1538,20 +1530,15 @@ descendre();
 	ajouterInstr2("store", adresse_j, 0);
 
 	}
-#line 1542 "y.tab.c" /* yacc.c:1646  */
+#line 1534 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 277 "compiler.y" /* yacc.c:1646  */
+#line 271 "compiler.y" /* yacc.c:1646  */
     {
-	printf(">int> %d\n",(yyvsp[0].e));
 	int ind = ajouterLigneTmpTS();
 	int adresse = getAdresseTS(ind);
-	//int tmp = ajouterLigneTmpTS();
 	
-	//ici on va générer les instructions MOV r0 $1 ,STORE adr r0
-	
-	//printf("AFC r0 %d\n", $1);
 	printf("AFC r0 %d\n", (yyvsp[0].e));
 	ajouterInstr2("afc", 0, (yyvsp[0].e));
 
@@ -1559,13 +1546,12 @@ descendre();
 	ajouterInstr2("store", adresse, 0);
 
 	}
-#line 1563 "y.tab.c" /* yacc.c:1646  */
+#line 1550 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 299 "compiler.y" /* yacc.c:1646  */
+#line 288 "compiler.y" /* yacc.c:1646  */
     {
-	printf(">id> %s\n", (yyvsp[0].e2));
 	int ind = getIndexTS((yyvsp[0].e2));
 	int adresse = getAdresseTS(ind);
 	int tmp = ajouterLigneTmpTS();
@@ -1581,20 +1567,20 @@ descendre();
 	//utile?
 	(yyval.e) = tmp;
 	}
-#line 1585 "y.tab.c" /* yacc.c:1646  */
+#line 1571 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 326 "compiler.y" /* yacc.c:1646  */
+#line 314 "compiler.y" /* yacc.c:1646  */
     {
 	//<e> utile pour spécifier le type
 	(yyvsp[0].e)=getMemInstruction();
 }
-#line 1594 "y.tab.c" /* yacc.c:1646  */
+#line 1580 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 331 "compiler.y" /* yacc.c:1646  */
+#line 319 "compiler.y" /* yacc.c:1646  */
     {
 	//si la condition n'est pas bonne on saute direct à la fin
 	int derniereAdresse = getAdresseTS(getIndexDerniereEntreeTS());
@@ -1607,11 +1593,11 @@ descendre();
 	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tWHILE 
 	(yyvsp[-4].e) = getMemInstruction()-1;
 }
-#line 1611 "y.tab.c" /* yacc.c:1646  */
+#line 1597 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 344 "compiler.y" /* yacc.c:1646  */
+#line 332 "compiler.y" /* yacc.c:1646  */
     {
 	//on ajoute un jump dans tous les cas avant le jmpc
 	ajouterInstr1("jmp", (yyvsp[-5].e));
@@ -1620,11 +1606,11 @@ descendre();
 	// qui a sans doute été changé dans le Body de la règle et avec l'inst jmp juste avant
 	modifierInstrAtIdx((yyvsp[-6].e), 0, getMemInstruction());
 }
-#line 1624 "y.tab.c" /* yacc.c:1646  */
+#line 1610 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 355 "compiler.y" /* yacc.c:1646  */
+#line 343 "compiler.y" /* yacc.c:1646  */
     {
 	int derniereAdresse = getAdresseTS(getIndexDerniereEntreeTS());
 	ajouterInstr2("load", 1, derniereAdresse);
@@ -1635,27 +1621,25 @@ descendre();
 	//on stocke l'idx dans la tinstr de l'instr jmpc dans le tIF 
 	(yyval.e) = getMemInstruction()-1;
 }
-#line 1639 "y.tab.c" /* yacc.c:1646  */
+#line 1625 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 378 "compiler.y" /* yacc.c:1646  */
+#line 366 "compiler.y" /* yacc.c:1646  */
     {
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
-	printf("Reecriture de l'instruction à l'index %d on met %d\n", (yyvsp[-1].e), getMemInstruction());
 	printInstr(getInstrAtIdx((yyvsp[-1].e)));
 	modifierInstrAtIdx((yyvsp[-1].e), 0, getMemInstruction());
 	printInstr(getInstrAtIdx((yyvsp[-1].e)));
 }
-#line 1652 "y.tab.c" /* yacc.c:1646  */
+#line 1637 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 401 "compiler.y" /* yacc.c:1646  */
+#line 388 "compiler.y" /* yacc.c:1646  */
     {
 	
-
 	// ajout d'un jump pour sauter à la fin de tous les else
 	ajouterInstr1("jmp", -1);
 
@@ -1666,39 +1650,36 @@ descendre();
 	// qui a sans doute été changé dans le Body de la règle
 	modifierInstrAtIdx((yyvsp[-1].e), 0, getMemInstruction());
 }
-#line 1670 "y.tab.c" /* yacc.c:1646  */
+#line 1654 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 415 "compiler.y" /* yacc.c:1646  */
+#line 401 "compiler.y" /* yacc.c:1646  */
     {
 	modifierInstrAtIdx((yyvsp[-6].e), 0, getMemInstruction());
+}
+#line 1662 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 411 "compiler.y" /* yacc.c:1646  */
+    {
+	descendre();
+}
+#line 1670 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 46:
+#line 415 "compiler.y" /* yacc.c:1646  */
+    {
+	monter();
 }
 #line 1678 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 45:
-#line 425 "compiler.y" /* yacc.c:1646  */
-    {
-	descendre();
-}
-#line 1686 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 46:
-#line 429 "compiler.y" /* yacc.c:1646  */
-    {
-	monter();
-}
-#line 1694 "y.tab.c" /* yacc.c:1646  */
-    break;
-
   case 49:
-#line 442 "compiler.y" /* yacc.c:1646  */
-    {
-	
-	printf("Cond Supe\n"); 
-
+#line 428 "compiler.y" /* yacc.c:1646  */
+    {	
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1725,15 +1706,12 @@ descendre();
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1729 "y.tab.c" /* yacc.c:1646  */
+#line 1710 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 480 "compiler.y" /* yacc.c:1646  */
+#line 463 "compiler.y" /* yacc.c:1646  */
     {
-	
-	printf("Cond Supe\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1760,14 +1738,12 @@ descendre();
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1764 "y.tab.c" /* yacc.c:1646  */
+#line 1742 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 518 "compiler.y" /* yacc.c:1646  */
+#line 498 "compiler.y" /* yacc.c:1646  */
     {
-	printf("Cond\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1794,15 +1770,12 @@ descendre();
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1798 "y.tab.c" /* yacc.c:1646  */
+#line 1774 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 555 "compiler.y" /* yacc.c:1646  */
+#line 533 "compiler.y" /* yacc.c:1646  */
     {
-	
-	printf("Cond INF\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1829,15 +1802,12 @@ descendre();
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1833 "y.tab.c" /* yacc.c:1646  */
+#line 1806 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 595 "compiler.y" /* yacc.c:1646  */
-    {
-	
-	printf("Cond DIFF\n"); 
-
+#line 570 "compiler.y" /* yacc.c:1646  */
+    {	
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1879,14 +1849,12 @@ descendre();
 	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1883 "y.tab.c" /* yacc.c:1646  */
+#line 1853 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 648 "compiler.y" /* yacc.c:1646  */
+#line 620 "compiler.y" /* yacc.c:1646  */
     {	
-	printf("Cond EGAL\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
@@ -1913,11 +1881,11 @@ descendre();
 	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
-#line 1917 "y.tab.c" /* yacc.c:1646  */
+#line 1885 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1921 "y.tab.c" /* yacc.c:1646  */
+#line 1889 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2145,7 +2113,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 686 "compiler.y" /* yacc.c:1906  */
+#line 656 "compiler.y" /* yacc.c:1906  */
 
 
 int main(void) {

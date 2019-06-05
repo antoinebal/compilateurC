@@ -42,14 +42,13 @@ tPARO Arguments tPARF BodyFonction {monter();};
 
 Type : tINT|tVOID ;
 
-//arguments dans la déf d'une fonction
+//arguments dans la signature d'une fonction
 Arguments : 
 Argument tVIRGULE Arguments | 
 Argument | ;
 
 Argument : tINT tID ;
 
-//Attention on peut faire un return dans un void
 /*Un body de fonction obligatoirement de la forme : 
 	{
 		declarations
@@ -61,17 +60,19 @@ BodyFonction : tACCO Declarations Actions tACCF | tACCO Declarations Actions tRE
 
 
 Declarations :  | Declaration Declarations ;
+
 /*
 nous n'autorisons pas les déclarations 2en1 (décla et affectation)
-du type : int a = 1;
+du type : int a = 1, 
+ni plusieurs déclarations en 1 ligne du type int a, b;
 */
 Declaration : tINT tID tPV
 	{
 	//on ajoute une ligne dans ts pour cette variable qu'on vient de déclarer
-	printf("%s", $2);
 	ajouterLigneTS("int ",$2, 0);
 	imprimerTS();
 	};
+
 
 Actions : Action Actions |  ;
 Action : Affectation | BlocIf | BlocWhile | AppelFonction | Printf ; 
@@ -85,30 +86,20 @@ on génère :
 	store adresse_tID r0
 */
 {
-	printf("\nAffectation\n");
-
 	//on récup la dernière valeur dans ts
 	imprimerTS();
 	int i = getIndexDerniereEntreeTS();
-	printf("i=%d\n", i);
 	int adresse_i = getAdresseTS(i);
 	popTS();
 
 	//on récup l'adresse de tID
-	printf("\n Dans affect, valeur de ID : %s \n", $1);
 	int idx_tID = getIndexTS($1);
 	int adresse_tID = getAdresseTS(idx_tID);
 
 	//on load la dernière valeur de ts récupérée dans r0
-	printf("LOAD r0 %d\n", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
-	//on cop r1 dans r0
-	//printf("COP r0 r1");
-	//ajouterInstr2("cop", 0, 1);
-
 	//on store la nouvelle valeur (dans r0) à l'adresse de tID
-	printf("STORE %d r0\n", adresse_tID);
 	ajouterInstr2("store", adresse_tID, 0);
 }; 
 
@@ -122,12 +113,10 @@ on génère :
 	store avantDerniereAdresseTS r0
 */
 	{ 
-	printf("tPLUS\n");
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 		
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -136,16 +125,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction ADD r0 r0 r1
-	printf("ADD r0 r0 r1");	
 	ajouterInstr3("add", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus et elle est en haut de ts
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus et elle est en haut de ts	
 	ajouterInstr2("store", adresse_j, 0);
 	
 	} 
@@ -160,13 +146,10 @@ on génère :
 */
 	{ 
 
-	printf("tMULT\n"); 
-
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 		
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -175,16 +158,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction MUL r0 r0 r1
-	printf("MUL r0 r0 r1");	
 	ajouterInstr3("mul", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus	
 	ajouterInstr2("store", adresse_j, 0);
 
 	} 
@@ -198,13 +178,11 @@ on génère :
 	store avantDerniereAdresseTS r0
 */
 	{ 
-	printf("tMOINS\n"); 
 
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);	
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -213,16 +191,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction SOU r0 r0 r1
-	printf("SOU r0 r0 r1");	
 	ajouterInstr3("sou", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus	
 	ajouterInstr2("store", adresse_j, 0);
 
 	} 
@@ -236,13 +211,11 @@ on génère :
 	store avantDerniereAdresseTS r0
 */
 { 
-	printf("tDIV\n"); 
 
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -251,16 +224,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
-	//on ajoute l'instruction DIV r0 r0 r1
-	printf("DIV r0 r0 r1");	
+	//on ajoute l'instruction DIV r0 r0 r1	
 	ajouterInstr3("div", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus	
 	ajouterInstr2("store", adresse_j, 0);
 
 	} 
@@ -275,18 +245,11 @@ on génère :
 	store derniereAdresseTS r0
 */
 	{
-	printf(">int> %d\n",$1);
 	int ind = ajouterLigneTmpTS();
 	int adresse = getAdresseTS(ind);
-	//int tmp = ajouterLigneTmpTS();
 	
-	//ici on va générer les instructions MOV r0 $1 ,STORE adr r0
-	
-	//printf("AFC r0 %d\n", $1);
-	printf("AFC r0 %d\n", $1);
 	ajouterInstr2("afc", 0, $1);
 
-	//printf("STORE %d r0\n", getAdresseTS(tmp));
 	ajouterInstr2("store", adresse, 0);
 
 	}
@@ -297,17 +260,14 @@ on génère :
 	store derniereAdresseTS r0
 */ 
 	{
-	printf(">id> %s\n", $1);
 	int ind = getIndexTS($1);
 	int adresse = getAdresseTS(ind);
 	int tmp = ajouterLigneTmpTS();
 
-	printf("LOAD r0 %d\n", adresse);
 	ajouterInstr2("load", 0, adresse);
 
 	int adresseTMP=getAdresseTS(tmp);
 	
-	printf("STORE %d, r0\n", adresseTMP);
 	ajouterInstr2("store", adresseTMP, 0);
 
 	//utile?
@@ -378,7 +338,6 @@ action_if Body
 {
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
-	printf("Reecriture de l'instruction à l'index %d on met %d\n", $5, getMemInstruction());
 	printInstr(getInstrAtIdx($5));
 	modifierInstrAtIdx($5, 0, getMemInstruction());
 	printInstr(getInstrAtIdx($5));
@@ -400,7 +359,6 @@ on génère :
 action_if Body 
 {
 	
-
 	// ajout d'un jump pour sauter à la fin de tous les else
 	ajouterInstr1("jmp", -1);
 
@@ -439,16 +397,12 @@ on génère :
 	supe r0 r0 r1
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
-{
-	
-	printf("Cond Supe\n"); 
-
+{	
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -457,16 +411,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
-	//on ajoute l'instruction SUPE r0 r0 r1
-	printf("SUPE r0 r0 r1");	
+	//on ajoute l'instruction SUPE r0 r0 r1	
 	ajouterInstr3("supe", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus	
 	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul tINFEGAL Calcul 
@@ -478,15 +429,11 @@ on génère :
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
 {
-	
-	printf("Cond Supe\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -495,16 +442,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
-	//on ajoute l'instruction INFE r0 r0 r1
-	printf("INFE r0 r0 r1");	
+	//on ajoute l'instruction INFE r0 r0 r1	
 	ajouterInstr3("infe", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus	
 	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul tSUP Calcul 
@@ -516,14 +460,11 @@ on génère :
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
 {
-	printf("Cond\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -532,16 +473,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
-	//on ajoute l'instruction INFE r0 r0 r1
-	printf("INFE r0 r0 r1");	
+	//on ajoute l'instruction INFE r0 r0 r1	
 	ajouterInstr3("infe", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus	
 	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul tINF Calcul
@@ -553,15 +491,11 @@ on génère :
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
 {
-	
-	printf("Cond INF\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -570,16 +504,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction INF r0 r0 r1
-	printf("INF r0 r0 r1");	
 	ajouterInstr3("inf", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
-	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
+	//on utilise adresse j car on veut écrire par dessus	
 	ajouterInstr2("store", adresse_j, 0);
 }
  | Calcul tDIFF Calcul 
@@ -592,16 +523,12 @@ on génère :
 	equ r0 r0 r1
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
-{
-	
-	printf("Cond DIFF\n"); 
-
+{	
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -610,22 +537,18 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
 	/*
 	pour vérifier que r0 != r2 on va d'abord faire un equ
 	puis comparer le résultat de ce equ avec 0 (avec equ)
 	*/
-	printf("EQU r0 r0 r1");	
 	ajouterInstr3("equ", 0, 0, 1);
 
 	//on met 0 dans r1
-	printf("AFC r1 0");
 	ajouterInstr2("afc", 1, 0);
 
 	//on compare ensuite avec 0
-	printf("EQU r0 r0 r1");	
 	ajouterInstr3("equ", 0, 0, 1);
 
 	//(le move fr)
@@ -633,8 +556,6 @@ on génère :
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);
-	
 	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul tEGAL Calcul
@@ -646,14 +567,11 @@ on génère :
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */ 
 {	
-	printf("Cond EGAL\n"); 
-
 	//les adresses des valeurs de Calcul sont forcément les deux dernières lignes de la tsymbol
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r0 %d", adresse_i);
 	ajouterInstr2("load", 0, adresse_i);
 
 	popTS();
@@ -662,16 +580,13 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	printf("LOAD r1 %d", adresse_j);
 	ajouterInstr2("load", 1, adresse_j);
 
 	//on ajoute l'instruction EQU r0 r0 r1
-	printf("EQU r0 r0 r1");	
 	ajouterInstr3("equ", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus
-	printf("STORE %d r0", adresse_j);	
 	ajouterInstr2("store", adresse_j, 0);
 }
 | Calcul;
