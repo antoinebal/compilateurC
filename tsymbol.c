@@ -94,7 +94,19 @@ void imprimerTS() {
 		imprimerLigne(ts[k]);
 		printf("\n");
 	}
+}
 
+void ecritCorrLigne(ligne l,  FILE *file) {
+	fprintf(file, "%d %s", l.adresseMemoire , l.id);
+}
+
+void ecritFichierCorrespondance() {
+	FILE *file = fopen("correspondance.co","w+");
+	for(int k = 0; k < idx; k++){															
+		ecritCorrLigne(ts[k], file);
+		fprintf(file, "\n");
+	}
+	fclose(file);
 }
 
 /*

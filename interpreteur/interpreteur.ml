@@ -1,6 +1,6 @@
 (* convertit le fichier assembleur en une liste d'instructions
    dont chaque élément est de la forme String list *)
-let from_file path =
+let from_file_assembleur path =
   let infile = open_in path in
   (* Read all lines until end of file. *)
   let rec loop instructions =
@@ -25,9 +25,39 @@ let from_file path =
   close_in infile ;
   final_instructions;;
 
-
 exception Mauvais_registre of string
 exception Instruction_inconnue
+exception Erreur_correspondance
+
+
+let from_file_correspondance path =
+  let infile = open_in path in
+  (* Read all lines until end of file. *)
+  let rec loop correspondances =
+    try
+      let line = input_line infile in
+      let correspondances2 =
+        (* Ignore empty lines *)
+        if line = "" then correspondances
+
+        (* The first character of a line determines its content : v or e.
+         * Lines not starting with v or e are ignored. *)
+        else
+          let s = String.split_on_char ' ' line in
+          let correspondance = (int_of_string (List.hd s) , List.nth s 1) in
+          correspondances@[correspondance]
+      in                 
+      loop correspondances2        
+    with End_of_file -> correspondances
+  in
+
+  let final_correspondances = loop [] in
+
+  close_in infile ;
+  final_correspondances;;
+
+
+
 	    
 (* retourne le numéro de registre d'un registre *)
 let numRegistre registre =
@@ -54,7 +84,7 @@ let numRegistre registre =
 
 
 let interpreteur nomFichier =
-  let instructions = from_file nomFichier in
+  let instructions = from_file_assembleur nomFichier in
 
   (* pc : instruction pointer (int)
      registres : int array
@@ -212,7 +242,7 @@ let interpreteur nomFichier =
 
 
 
-let instructions = from_file "assembleur.s";;
+let instructions = from_file_assembleur "assembleur.s";;
 
 
   
@@ -269,12 +299,21 @@ let printMemoire memoire =
   (Printf.printf "******MEMOIRE******\n");
   pmIn 0;; 
   
+let printVariables memoire =
+  let correspondances = from_file_correspondance "correspondance.co"  in
+  let rec pvAcu corr =
+    match corr with
+    |(adresse, id)::reste ->
+      Printf.printf "%s : %d \n" id memoire.(adresse);
+      pvAcu reste
+    |[] -> Printf.printf "\n"
+  in
+   (Printf.printf "******VARIABLES******\n");
+  pvAcu correspondances ;;
   
-  
-  
-  printInstructions (from_file "assembleur.s");
+  printInstructions (from_file_assembleur "assembleur.s");
   match interpreteur "assembleur.s" with
   |(registres , memoire) ->
     printRegistres registres;
     printMemoire memoire;
-    
+    printVariables memoire;

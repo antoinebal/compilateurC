@@ -39,3 +39,14 @@ void monter();
 //appelée quand on descend dans la hiérarchie des scopes
 void descendre();
 
+/*
+écrit la correspondance @Variable <> idVariable
+dans file pour la ligne l
+*/
+void ecritCorrLigne(ligne l,  FILE *file);
+
+/*
+écrit la correspondance @Variable <> idVariable dans correspondance.co 
+selon le format : "@Variable idVariable"
+*/
+void ecritFichierCorrespondance();

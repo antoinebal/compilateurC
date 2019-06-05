@@ -607,5 +607,6 @@ int main(void) {
 	yyparse();
 	printT_Instr();
 	ecritT_Instr();
-	
+	imprimerTS();
+	ecritFichierCorrespondance();
 }

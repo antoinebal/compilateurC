@@ -2,7 +2,7 @@ afc r0 4
 store 2 r0
 load r0 2
 store 0 r0
-afc r0 9
+afc r0 10
 store 2 r0
 load r0 2
 store 1 r0

@@ -1,6 +1,8 @@
 void main(int arg){
+	int a;
 	int b;
-	b = 10;
+	a = 4;
+	b = 9;
 	if(b==9){
 		if (b==3) {
 			b=50;
