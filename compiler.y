@@ -105,8 +105,8 @@ Calcul : Grandeur
 	| Calcul tPLUS Calcul 
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	add r0 r0 r1
 	store avantDerniereAdresseTS r0
 */
@@ -137,8 +137,8 @@ on génère :
 
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	mult r0 r0 r1
 	store avantDerniereAdresseTS r0
 */
@@ -170,8 +170,8 @@ on génère :
 	
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	sou r0 r0 r1
 	store avantDerniereAdresseTS r0
 */
@@ -203,8 +203,8 @@ on génère :
 	
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	div r0 r0 r1
 	store avantDerniereAdresseTS r0
 */
@@ -388,8 +388,8 @@ Condition : Cond | tNOT Cond ;
 Cond : Calcul tSUPEGAL Calcul 
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	supe r0 r0 r1
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
@@ -419,8 +419,8 @@ on génère :
 | Calcul tINFEGAL Calcul 
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	infe r0 r0 r1
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
@@ -450,8 +450,8 @@ on génère :
 | Calcul tSUP Calcul 
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	sup r0 r0 r1
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
@@ -481,8 +481,8 @@ on génère :
 | Calcul tINF Calcul
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	inf r0 r0 r1
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */
@@ -512,8 +512,8 @@ on génère :
  | Calcul tDIFF Calcul 
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	equ r0 r0 r1
 	afc r1 0
 	equ r0 r0 r1
@@ -557,8 +557,8 @@ on génère :
 | Calcul tEGAL Calcul
 /*
 on génère : 
-	load r0 derniereAdresseTS
-	load r1 avantDerniereAdresseTS
+	load r1 derniereAdresseTS
+	load r0 avantDerniereAdresseTS
 	equ r0 r0 r1
 	store avantDerniereAdresseTS r0 (adresse qui est désormais la dernière)
 */ 

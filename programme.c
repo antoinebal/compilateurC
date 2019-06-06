@@ -8,11 +8,11 @@ void main(int arg){
 	int chris;
 	int yao;
 	yao=44;
+	printf(yao+3);
 	e=0;
 	d=1;
-	printf(yao+9000-43);
-	if (e!=0) {
-		harry=4;
+	if (e==0) {
+		harry=4-1+7;
 		if (d==1) {
 			chris=2;
 		} else {
@@ -26,7 +26,7 @@ void main(int arg){
 			chris=3;
 		}
 	}
-	while (e < 4) {
+	while (e < 2) {
 		e=e+1;
 		d=d*2;
 		if (e==3) {
@@ -34,4 +34,5 @@ void main(int arg){
 			g=jam/2;
 		}
 	}
+	f = 22;
 }

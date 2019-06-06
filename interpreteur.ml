@@ -237,7 +237,7 @@ let interpreteur nomFichier =
  else interp (pc+1) registres memoire (* on ne saute pas *)
       |"print" ->
         let adrI = int_of_string (List.nth instruction 1) in
-        Printf.printf "PRINT : %d\n" memoire.(adrI);
+        Printf.printf "%d\n" memoire.(adrI);
         interp (pc+1) registres memoire
       | _ -> raise Instruction_inconnue
 
