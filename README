@@ -1,0 +1,10 @@
+Après un make, pour faire tourner le compilateur : ./compiler < programme.c
+
+Pour compiler l'interpréteur : ocamlc -o interpreteur interpreteur.ml
+puis pour l'exécuter : ./interpreteur
+
+
+Notes : 
+	tinstr : table d'instruction
+	tsymbol : table des symboles
+	correspondance.co : généré par tsymbol et utilisé par l'interpréteur

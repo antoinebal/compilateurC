@@ -26,8 +26,6 @@ void monter() {
 
 
 void ajouterLigneTS(char* type, char* id, int valConst) {
-	//AJOUTER LES TESTS
-	printf("On ajoute la ligne de %s \n", id); 
   	ts[idx].type= type;
 	ts[idx].id= id;
  	ts[idx].valeurConstante=valConst;

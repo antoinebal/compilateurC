@@ -25,11 +25,20 @@ let from_file_assembleur path =
   close_in infile ;
   final_instructions;;
 
+(* exception levée quand un registre spécifié 
+   dans le fichier assembleur est inconnu *)
 exception Mauvais_registre of string
+
+(* exception levée quand une instruction spécifiée 
+   dans le fichier assembleur est inconnue *)
 exception Instruction_inconnue
+
+(* exception levée quand une correspondance est
+   mal écrite dans le fichier .co *)
 exception Erreur_correspondance
 
-
+(* retourne une liste de la forme (@Variable, idVariable),
+   récupérée en parsant un fichier .co *)
 let from_file_correspondance path =
   let infile = open_in path in
   (* Read all lines until end of file. *)
@@ -57,8 +66,6 @@ let from_file_correspondance path =
   final_correspondances;;
 
 
-
-	    
 (* retourne le numéro de registre d'un registre *)
 let numRegistre registre =
   match registre with
@@ -90,10 +97,10 @@ let interpreteur nomFichier =
      registres : int array
      memoire : int array 
      retourne un tuple (registres , memoire)
-   *)
+  *)
   let rec interp pc registres memoire =
     (* on examine l'instructions pointée par pc 
-    attention à ne faire que quand pc encore dans instructions sinon stop*)
+       attention à ne faire que quand pc encore dans instructions sinon stop*)
     if pc >= (List.length instructions)
     then (registres , memoire)
     else 
@@ -106,7 +113,6 @@ let interpreteur nomFichier =
 	let numRc = numRegistre (List.nth instruction 3) in
 	registres.(numRa) <- (registres.(numRb) + registres.(numRc));
 	interp (pc+1) registres memoire
-      (* ICI : mettre dans les bonnes cases du tableau *)
       |"mul" ->
 	(* mul Ra Rb Rc *)
 	let numRa = numRegistre (List.nth instruction 1) in
@@ -172,7 +178,7 @@ let interpreteur nomFichier =
 	let numRc = numRegistre (List.nth instruction 3) in
 	let cond = registres.(numRb) < registres.(numRc) in
 	(match cond with
-	 |true ->
+         |true ->
 	   registres.(numRa) <- 1;
 	   interp (pc+1) registres memoire
 	 |false ->
@@ -185,7 +191,7 @@ let interpreteur nomFichier =
 	let numRc = numRegistre (List.nth instruction 3) in
 	let cond = registres.(numRb) <= registres.(numRc) in
 	(match cond with
-	 |true ->
+         |true ->
 	   registres.(numRa) <- 1;
 	   interp (pc+1) registres memoire
 	 |false ->
@@ -230,22 +236,22 @@ let interpreteur nomFichier =
 	then interp adrI registres memoire (* on saute *)
 	else interp (pc+1) registres memoire (* on ne saute pas *)
       | _ -> raise Instruction_inconnue
-		   
+
   in
-  
+
   (* on initialise les registres et la mémoire *)
   let reg = Array.make 16 0 in
   let mem = Array.make 256 0 in
-  
+
   interp 0 reg mem;;
-  
+
 
 
 
 let instructions = from_file_assembleur "assembleur.s";;
 
 
-  
+
 
 let printInstructions instructions =
   let printInstruction instruction no = 
@@ -262,15 +268,13 @@ let printInstructions instructions =
     match insts with
     |[] -> Printf.printf "\n"
     |instruction::reste -> printInstruction instruction no;
-			   piIn reste (no+1)
+      piIn reste (no+1)
   in
   Printf.printf "****INSTRUCTIONS****\n";
   piIn instructions 0
 ;;
 
-  
-  
-  
+
 let printRegistres registres =
   let taille = Array.length registres in
   let rec prIn i =
@@ -284,7 +288,9 @@ let printRegistres registres =
   in
   Printf.printf "*****REGISTRES*****\n";
   prIn 0;;
-  
+
+
+
 let printMemoire memoire =
   let taille = Array.length memoire in
   let rec pmIn i =
@@ -298,7 +304,7 @@ let printMemoire memoire =
   in
   (Printf.printf "******MEMOIRE******\n");
   pmIn 0;; 
-  
+
 let printVariables memoire =
   let correspondances = from_file_correspondance "correspondance.co"  in
   let rec pvAcu corr =
@@ -308,12 +314,14 @@ let printVariables memoire =
       pvAcu reste
     |[] -> Printf.printf "\n"
   in
-   (Printf.printf "******VARIABLES******\n");
+  (Printf.printf "******VARIABLES******\n");
   pvAcu correspondances ;;
-  
-  printInstructions (from_file_assembleur "assembleur.s");
-  match interpreteur "assembleur.s" with
-  |(registres , memoire) ->
-    printRegistres registres;
-    printMemoire memoire;
-    printVariables memoire;
+
+
+(*******ICI FONCTIONS A EXECUTER*******)
+printInstructions (from_file_assembleur "assembleur.s");
+match interpreteur "assembleur.s" with
+|(registres , memoire) ->
+  printRegistres registres;
+  printMemoire memoire;
+  printVariables memoire;

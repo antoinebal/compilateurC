@@ -70,7 +70,6 @@ Declaration : tINT tID tPV
 	{
 	//on ajoute une ligne dans ts pour cette variable qu'on vient de déclarer
 	ajouterLigneTS("int ",$2, 0);
-	imprimerTS();
 	};
 
 
@@ -87,7 +86,6 @@ on génère :
 */
 {
 	//on récup la dernière valeur dans ts
-	imprimerTS();
 	int i = getIndexDerniereEntreeTS();
 	int adresse_i = getAdresseTS(i);
 	popTS();
@@ -338,9 +336,7 @@ action_if Body
 {
 	// on remplit l'arg -1 temporaire avec le nouveau memoire_instruction (pc)
 	// qui a sans doute été changé dans le Body de la règle
-	printInstr(getInstrAtIdx($5));
 	modifierInstrAtIdx($5, 0, getMemInstruction());
-	printInstr(getInstrAtIdx($5));
 } %prec tIFX
 	//le if le plus près du else est le plus prioritaire
 
@@ -403,7 +399,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -411,7 +407,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction SUPE r0 r0 r1	
 	ajouterInstr3("supe", 0, 0, 1);
@@ -434,7 +430,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -442,7 +438,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction INFE r0 r0 r1	
 	ajouterInstr3("infe", 0, 0, 1);
@@ -465,7 +461,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -473,10 +469,10 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction INFE r0 r0 r1	
-	ajouterInstr3("infe", 0, 0, 1);
+	ajouterInstr3("sup", 0, 0, 1);
 
 	//on ajoute l'instruction : STORE getIndexDerniereEntreeTS() r0
 	//on utilise adresse j car on veut écrire par dessus	
@@ -496,7 +492,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -504,7 +500,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction INF r0 r0 r1
 	ajouterInstr3("inf", 0, 0, 1);
