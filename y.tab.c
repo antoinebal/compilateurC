@@ -1399,7 +1399,7 @@ descendre();
 	int adresse_i = getAdresseTS(i);
 		
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -1407,7 +1407,7 @@ descendre();
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction ADD r0 r0 r1
 	ajouterInstr3("add", 0, 0, 1);
@@ -1428,7 +1428,7 @@ descendre();
 	int adresse_i = getAdresseTS(i);
 		
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -1436,7 +1436,7 @@ descendre();
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction MUL r0 r0 r1
 	ajouterInstr3("mul", 0, 0, 1);
@@ -1457,7 +1457,7 @@ descendre();
 	int adresse_i = getAdresseTS(i);	
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -1465,7 +1465,7 @@ descendre();
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction SOU r0 r0 r1
 	ajouterInstr3("sou", 0, 0, 1);
@@ -1486,7 +1486,7 @@ descendre();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -1494,7 +1494,7 @@ descendre();
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction DIV r0 r0 r1	
 	ajouterInstr3("div", 0, 0, 1);
@@ -1765,7 +1765,7 @@ descendre();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -1773,7 +1773,7 @@ descendre();
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	/*
 	pour vérifier que r0 != r2 on va d'abord faire un equ
@@ -1805,7 +1805,7 @@ descendre();
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -1813,7 +1813,7 @@ descendre();
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction EQU r0 r0 r1
 	ajouterInstr3("equ", 0, 0, 1);
@@ -1825,8 +1825,26 @@ descendre();
 #line 1826 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 60:
+#line 595 "compiler.y" /* yacc.c:1646  */
+    {
+	//les adresses des valeurs de Calcul sont forcément la dernière ligne de la tsymbol
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
 
-#line 1830 "y.tab.c" /* yacc.c:1646  */
+	//on rajoute l'instruction dans la table d'instruction
+	ajouterInstr2("load", 0, adresse_i);
+
+	popTS();
+
+	ajouterInstr1("print", adresse_i);
+
+}
+#line 1844 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1848 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2054,7 +2072,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 597 "compiler.y" /* yacc.c:1906  */
+#line 610 "compiler.y" /* yacc.c:1906  */
 
 
 int main(void) {

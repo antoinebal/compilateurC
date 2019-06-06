@@ -95,6 +95,9 @@ void printInstr(instruction instr) {
 	else if (strcmp(instr.instr, "jmpc")==0) {
 	printf("%s %d r%d", instr.instr, instr.arg[0], instr.arg[1]);
 	}
+	else if (strcmp(instr.instr, "print")==0) {
+	printf("%s %d", instr.instr, instr.arg[0]);
+	}
 	else {
 	printf("Instruction %s inconnue", instr.instr);
 	}
@@ -159,6 +162,9 @@ void ecritInstr(instruction instr, FILE *file) {
 	}
 	else if (strcmp(instr.instr, "jmpc")==0) {
 	fprintf(file, "%s %d r%d", instr.instr, instr.arg[0], instr.arg[1]);
+	}
+	else if (strcmp(instr.instr, "print")==0) {
+	fprintf(file, "%s %d", instr.instr, instr.arg[0]);
 	}
 	else {
 	printf("???? (Instruction %s inconnue)", instr.instr);

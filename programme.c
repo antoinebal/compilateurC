@@ -6,8 +6,11 @@ void main(int arg){
 	int jam;
 	int harry;
 	int chris;
+	int yao;
+	yao=44;
 	e=0;
 	d=1;
+	printf(yao+9000-43);
 	if (e!=0) {
 		harry=4;
 		if (d==1) {
@@ -28,7 +31,7 @@ void main(int arg){
 		d=d*2;
 		if (e==3) {
 			jam=6;
-			g=jam/3;
+			g=jam/2;
 		}
 	}
 }

@@ -115,7 +115,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 		
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -123,7 +123,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction ADD r0 r0 r1
 	ajouterInstr3("add", 0, 0, 1);
@@ -148,7 +148,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 		
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -156,7 +156,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction MUL r0 r0 r1
 	ajouterInstr3("mul", 0, 0, 1);
@@ -181,7 +181,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);	
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -189,7 +189,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction SOU r0 r0 r1
 	ajouterInstr3("sou", 0, 0, 1);
@@ -214,7 +214,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -222,7 +222,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction DIV r0 r0 r1	
 	ajouterInstr3("div", 0, 0, 1);
@@ -525,7 +525,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -533,7 +533,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	/*
 	pour vérifier que r0 != r2 on va d'abord faire un equ
@@ -568,7 +568,7 @@ on génère :
 	int adresse_i = getAdresseTS(i);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 0, adresse_i);
+	ajouterInstr2("load", 1, adresse_i);
 
 	popTS();
 	
@@ -576,7 +576,7 @@ on génère :
 	int adresse_j = getAdresseTS(j);
 	
 	//on rajoute l'instruction dans la table d'instruction
-	ajouterInstr2("load", 1, adresse_j);
+	ajouterInstr2("load", 0, adresse_j);
 
 	//on ajoute l'instruction EQU r0 r0 r1
 	ajouterInstr3("equ", 0, 0, 1);
@@ -591,7 +591,20 @@ AppelFonction : tID tPARO Args tPARF tPV;
 //même chose que dans la déclaration des fonctions mais sans les types
 Args : Calcul tVIRGULE Args | Calcul | ; 
 //pour l'instant on peut print que des int
-Printf : tPRINTF tPARO Calcul tPARF tPV ;
+Printf : tPRINTF tPARO Calcul tPARF tPV
+{
+	//les adresses des valeurs de Calcul sont forcément la dernière ligne de la tsymbol
+	int i = getIndexDerniereEntreeTS();
+	int adresse_i = getAdresseTS(i);
+
+	//on rajoute l'instruction dans la table d'instruction
+	ajouterInstr2("load", 0, adresse_i);
+
+	popTS();
+
+	ajouterInstr1("print", adresse_i);
+
+} ;
  
 
 %%
